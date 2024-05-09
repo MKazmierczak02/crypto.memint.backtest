@@ -1,0 +1,163 @@
+body {
+  display: grid;
+  background-color: #1d1d1d;
+  margin: 0;
+}
+
+.left-nav {
+  display: flex;
+  position: fixed;
+  align-items: left;
+  padding-top: 10px;
+  padding-left: 25px;
+  flex-direction: column;
+  width: 250px;
+  margin-left: 0;
+  background-color: #252525;
+  height: 100%;
+}
+
+.nav-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  font-size: 32px;
+  text-decoration: none;
+  color: #fff;
+  margin-right: 48px;
+}
+
+.hamburger-icon {
+  width: 24px;
+  padding-left: 16px;
+  margin-right: 0;
+}
+
+.nav-icon {
+  width: 24px;
+  margin-right: 15px;
+}
+
+.nav-item {
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+.nav-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: left;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #999;
+  margin-top: 40px;
+  font-size: 1.2rem;
+  transition: color 0.2s, text-shadow 0.2s;
+}
+
+.nav-link:hover {
+  color: #fff;
+  text-shadow: 15px 15px 15px rgba(0, 0, 0, 1);
+}
+
+.wrapper {
+  margin-left: 350px;
+  display: grid;
+  grid-template-rows: 100px 1fr;
+  gap: 0px;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  font-size: 32px;
+  color: #fff;
+  margin-right: 48px;
+  margin-bottom: 0;
+}
+
+.container {
+  margin-top: 0;
+  display: flex;
+  flex-direction: row;
+}
+
+.dashboard-icon {
+  height: 32px;
+}
+
+.left-container {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+}
+
+.right-container {
+  margin-left: 60px;
+  margin-right: 60px;
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+}
+
+.market-info {
+  border-radius: 15px;
+  flex: 0.5;
+  margin: 10px;
+  background-color: #333;
+  height: 250px;
+  display: grid;
+  grid-template-rows: 50px 1fr;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.tile-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.tile-details {
+  color: #fff;
+  text-align: center;
+}
+.tile-table {
+  width: 100%;
+}
+
+.tile-label {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+}
+
+.add-button {
+  background-color: #999;
+  border-radius: 16px;
+  height: 32px;
+  width: 32px;
+  border-style: none;
+  cursor: pointer;
+}
+
+.dashboard-line {
+  background-color: #1d1d1d;
+  height: 1px;
+  border-width: 0;
+  width: 80%;
+}
+
+td {
+  width: 33%;
+}
