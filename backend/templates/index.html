@@ -1,22 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="static/css/style.css" rel="stylesheet" />
-    <link href="static/css/fonts.css" rel="stylesheet" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@100;200;300;400;500;600;700;800;900&display=swap"
-      rel="stylesheet"
-    />
-
-    <title>MeMint</title>
-  </head>
-  <body>
-    <div class="container saira-condensed-regular">
-      <nav class="saira-condensed-bold">
+{% extends 'base.html' %}
+{% block title %}Trading strategies{% endblock %}
+{% block content %}
+<nav class="saira-condensed-bold">
         <a class="logo" href="#" > MEMINT </a>
         <ul>
           <li >
@@ -39,8 +24,8 @@
       </nav>
       <div class="main-content">
         <div class="main-title-container">
-          <hr class="main-line" >  
-          <p class="title">MAKE YOUR TRADING 
+          <hr class="main-line" >
+          <p class="title">MAKE YOUR TRADING
             <strong class="saira-condensed-semibold">MORE EFFECTIVE</strong></p>
         </div>
         <div class="img-container">
@@ -59,7 +44,7 @@
           Let's see how \\<strong>it works</strong>
         </p>
       </div>
-      
+
       <div class="steps-container ">
         <div class="step-container">
           <div class="step-header-container">
@@ -124,7 +109,4 @@
           Terms & conditions
         </a>
       </footer>
-    </div>
-    
-  </body>
-</html>
+{% endblock %}
