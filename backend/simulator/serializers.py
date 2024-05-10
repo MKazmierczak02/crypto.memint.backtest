@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .models import Strategy, Symbol
+from .models import Strategy, Symbol, Simulation
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -22,3 +22,15 @@ class SymbolSerializer(serializers.ModelSerializer):
     class Meta:
         model = Symbol
         fields = ['id', 'crypto', 'vs_currency']
+
+
+class SimulationSerializer(serializers.ModelSerializer):
+    strategy = serializers.PrimaryKeyRelatedField(queryset=Strategy.objects.all())
+    symbols = serializers.PrimaryKeyRelatedField(many=True, queryset=Symbol.objects.all())
+
+    class Meta:
+        model = Simulation
+        fields = ['id', 'strategy', 'symbols', 'start_date', 'end_date', 'initial_capital',
+                  'final_capital', 'profit_loss', 'performance_metrics']
+        read_only_fields = ['end_date', 'final_capital', 'profit_loss', 'performance_metrics']
+
