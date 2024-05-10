@@ -9,4 +9,4 @@ class Symbol(models.Model):
         unique_together = ('crypto', 'vs_currency')
 
     def __str__(self):
-        return f"{self.crypto}/{self.vs_currency}"
+        return f"{self.crypto}{self.vs_currency}"

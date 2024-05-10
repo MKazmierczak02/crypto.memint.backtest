@@ -4,6 +4,8 @@ import time
 import websocket
 import json
 
+from ..models import PriceData, Symbol
+from ..exceptions import FetchBinanceDataException
 
 class BinanceWebSocketClient:
     def __init__(self, symbols):
@@ -42,7 +44,6 @@ class BinanceWebSocketClient:
 
     def on_open(self, ws):
         self.subscribe_to_symbols()
-        print("WebSocket opened")
 
     def subscribe_to_symbols(self):
         subscribe_message = {"method": "SUBSCRIBE", "params": [], "id": 1}
@@ -57,11 +58,10 @@ class BinanceWebSocketClient:
         self.ws.run_forever()
 
 
-def get_data_from_last(symbol: str, interval="1m", limit=5):
+def get_data_from_last(symbol: Symbol, interval="1m", limit=5):
     try:
-        url = f"https://api.binance.com/api/v3/klines?symbol={symbol.upper()}&interval={interval}&limit={limit}"
+        url = f"https://api.binance.com/api/v3/klines?symbol={str(symbol).upper()}&interval={interval}&limit={limit}"
         response = requests.get(url)
-        historical_data = []
         if response.status_code == 200:
             data = response.json()
             if not data:
@@ -73,23 +73,25 @@ def get_data_from_last(symbol: str, interval="1m", limit=5):
                 low_price = float(item[3])
                 close_price = float(item[4])
                 volume = float(item[5])
-                historical_data.append({
-                    "timestamp": timestamp,
-                    "symbol": symbol.upper(),
-                    "open_price": open_price,
-                    "high_price": high_price,
-                    "low_price": low_price,
-                    "close_price": close_price,
-                    "volume": volume
-                })
+                # historical_data.append({
+                #     "timestamp": timestamp,
+                #     "symbol": symbol.upper(),
+                #     "open_price": open_price,
+                #     "high_price": high_price,
+                #     "low_price": low_price,
+                #     "close_price": close_price,
+                #     "volume": volume
+                # })
+                PriceData.objects.create(timestamp=timestamp, symbol=symbol, open_price=open_price,
+                                         high_price=high_price, low_price=low_price, close_price=close_price,
+                                         volume=volume
+                                         )
+
         else:
-            print(
-                f"Nie udało się pobrać danych historycznych dla symbolu {symbol}. Kod odpowiedzi: {response.status_code}")
-            return []
-        return historical_data
+            raise FetchBinanceDataException(f"Failed to retrieve historical data for symbol {symbol}."
+                                            f" Response code: {response.status_code}")
     except Exception as e:
-        print(f"Wystąpił błąd podczas pobierania historycznych danych ceny: {e}")
-        return None
+        raise FetchBinanceDataException(f"Failed to retrieve historical data for symbol {symbol}.")
 
 
 def get_current_symbol_price(symbol):
@@ -103,8 +105,7 @@ def get_current_symbol_price(symbol):
             symbol_price = float(data['price'])
             return [symbol_price, current_timestamp]
         else:
-            print(f"Nie udało się pobrać ceny. Kod odpowiedzi: {response.status_code} dla symbolu {symbol}.")
-            return None
+            raise FetchBinanceDataException(f"Failed to retrieve data for symbol {symbol}."
+                                            f" Response code: {response.status_code}")
     except Exception as e:
-        print(f"Wystąpił błąd podczas pobierania aktualnej ceny: {e}")
-        return None
+        raise FetchBinanceDataException(f"Failed to retrieve data for symbol {symbol}.")
