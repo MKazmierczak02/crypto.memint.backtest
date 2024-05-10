@@ -3,3 +3,4 @@ djangorestframework
 drf-yasg
 requests
 python-dotenv
+websocket-client
