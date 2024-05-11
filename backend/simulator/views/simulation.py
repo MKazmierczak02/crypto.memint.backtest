@@ -30,7 +30,7 @@ class SimulationViewSet(viewsets.ModelViewSet):
 def start_simulation(request, pk):
     simulation = get_object_or_404(Simulation, pk=pk)
     if simulation.user_id == request.user.id:
-        simulation_thread = SimulationThread(simulation.id, simulation.symbols)
+        simulation_thread = SimulationThread(simulation.id, simulation.strategy.strategy_definition)
         simulation_threads[simulation.id] = simulation_thread
         simulation_thread.start()
         return Response({"status": "ok"})

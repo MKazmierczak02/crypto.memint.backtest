@@ -14,7 +14,7 @@ class StrategySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Strategy
-        fields = ['id', 'name', 'user', 'created_at', 'updated_at', 'description', 'active']
+        fields = ['id', 'name', 'user', 'created_at', 'updated_at', 'description', 'strategy_definition']
         read_only_fields = ['created_at', 'updated_at']
 
 
