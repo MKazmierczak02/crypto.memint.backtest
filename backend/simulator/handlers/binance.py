@@ -7,6 +7,7 @@ import json
 from ..models import PriceData, Symbol
 from ..exceptions import FetchBinanceDataException
 
+
 class BinanceWebSocketClient:
     def __init__(self, symbols):
         self.prices = {}
