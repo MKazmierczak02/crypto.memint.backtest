@@ -15,4 +15,3 @@ class StrategyViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(user=User.objects.first())
-
