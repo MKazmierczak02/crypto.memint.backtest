@@ -20,5 +20,7 @@ class SimulationThread(threading.Thread):
         while not self.stopped():
             print(f"Thread is running... {self.counter}")
             self.counter += 1
+            for condition in self.simulation_details["buy_conditions"]:
+                print(condition["name"])
             time.sleep(1)
         print("Thread is stopped.")
