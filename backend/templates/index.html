@@ -2,7 +2,7 @@
 {% load static %}
 {% block title %}Trading strategies{% endblock %}
 {% block head %}
-	<script src="{% static 'js/home.js' %}"></script>
+	<script defer src="{% static 'js/home.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -23,11 +23,11 @@
             <a href="#">About</a>
           </li>
           <li >
-            <a class="nav-link-signin href="#">Sign in</a>
+            <a class="nav-link-signin" href="#">Sign in</a>
           </li>
         </ul>
       </nav>
-      <div class="main-content">
+      <div class="main-content hidden">
         <div class="main-title-container">
           <hr class="main-line" >
           <p class="title">MAKE YOUR TRADING
@@ -39,18 +39,18 @@
 
       </div>
 
-      <div class="get-started-container">
+      <div class="get-started-container hidden">
         <button class="get-started-btn ">Get started</button>
       </div>
 
-      <div class="how-it-works-container" id="how-it-works">
+      <div class="how-it-works-container hidden" id="how-it-works">
         <hr class="how-it-works-line">
         <p class="how-works-sign ">
           Let's see how \\<strong>it works</strong>
         </p>
       </div>
 
-      <div class="steps-container ">
+      <div class="steps-container hidden">
         <div class="step-container">
           <div class="step-header-container">
             <div>

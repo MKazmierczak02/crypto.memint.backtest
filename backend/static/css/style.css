@@ -145,16 +145,6 @@ footer {
   width: 100%;
 }
 
-@keyframes slide-in-left {
-  0% {
-    transform: translateX(-100%);
-    opacity: 0;
-  }
-  100% {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
 
 .how-it-works-container {
   margin-top: 15%;
@@ -162,10 +152,22 @@ footer {
   grid-template-columns: 25% 15% 1fr;
   align-items: center;
   column-gap: 2%;
-  opacity: 0;
-  transform: translateX(-100%);
-  transition: opacity 1s ease-out, transform 1s ease-out;
 }
+
+.hidden {
+  opacity: 0;
+  filter: blur(5px);
+  transform: translateX(-100%);
+  transition: all 1s;
+}
+
+.visible {
+  opacity: 1;
+  filter: blur(0);
+  transform: translate(0);
+}
+
+
 
 .how-it-works-container.visible {
   animation: slide-in-left 1s forwards;
