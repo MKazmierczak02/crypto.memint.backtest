@@ -1,11 +1,11 @@
 from django.db import models
 from django.db.models.fields.related import ForeignKey
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from .symbol import Symbol
 
 
 class Simulation(models.Model):
-    user = ForeignKey(User, on_delete=models.CASCADE)
+    user = ForeignKey(get_user_model(), on_delete=models.CASCADE)
     strategy = models.ForeignKey("Strategy", on_delete=models.CASCADE)
     symbols = models.ManyToManyField(Symbol, related_name="simulations")
     start_date = models.DateField(null=True, blank=True)

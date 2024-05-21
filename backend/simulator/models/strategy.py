@@ -1,10 +1,10 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 
 
 class Strategy(models.Model):
     name = models.CharField(max_length=100, verbose_name="Strategy Name")
-    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="User")
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, verbose_name="User")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Created At")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="Updated At")
     description = models.TextField(verbose_name="Description")
