@@ -6,24 +6,28 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import Home from "./components/Home";
-import ErrorPage from "./components/ErrorPage"
-import {Login, SignUp} from "./components/Login";
+import Home from "./screens/HomeScreen";
+import ErrorScreen from "./screens/ErrorScreen"
+import {Login, SignUp} from "./screens/LoginScreen";
+import NavigationBar from "./components/Navbar";
+import Footer from "./components/Footer";
+
+
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
-    errorElement: <ErrorPage />,
+    errorElement: <ErrorScreen />,
   },
   {
     path: "/login",
     element: <Login />,
-    errorElement: <ErrorPage />,
+    errorElement: <ErrorScreen />,
   },
   {
     path: "/signup",
     element: <SignUp />,
-    errorElement: <ErrorPage />,
+    errorElement: <ErrorScreen />,
   },
 
 
@@ -31,8 +35,16 @@ const router = createBrowserRouter([
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>
+    <React.StrictMode>
+      <header>
+        <NavigationBar/>
+      </header>
+      <main className={"saira-condensed-regular"}>
+        <RouterProvider router={router}/>
+      </main>
+      <footer>
+        <Footer/>
+      </footer>
+    </React.StrictMode>
 );
 

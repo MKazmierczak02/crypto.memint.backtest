@@ -3,8 +3,7 @@ import {Col, Container, Nav, Row} from "react-bootstrap";
 
 const Footer = () => {
   return (
-    <footer className="saira-condensed-bold pt-4">
-      <Container className={""}>
+      <Container className={"saira-condensed-bold pt-4"}>
         <Row>
           <Col md={12} className="justify-content-center d-flex align-items-center">
             <Nav className="footer-nav">
@@ -20,9 +19,7 @@ const Footer = () => {
           </Col>
         </Row>
       </Container>
-    </footer>
   );
-
 };
 
 export default Footer;
