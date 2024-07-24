@@ -1,7 +1,8 @@
 from rest_framework import serializers
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from .models import Strategy, Symbol, Simulation, PriceData
 
+User = get_user_model()
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -57,6 +58,11 @@ class SimulationSerializer(serializers.ModelSerializer):
             "profit_loss",
             "performance_metrics",
         ]
+
+
+class ControlIdSerializer(serializers.Serializer):
+    id = serializers.IntegerField(help_text="Primary key of the endpoint object handling")
+
 
 
 class PriceDataSerializer(serializers.ModelSerializer):

@@ -10,7 +10,7 @@ router.register(r'prices', PriceViewSet, basename='prices')
 
 
 urlpatterns = [
-    path('start/<int:pk>', start_simulation, name='start-simulation'),
-    path('stop/<int:pk>', stop_simulation, name='stop-simulation'),
+    path('start', start_simulation, name='start-simulation'),
+    path('stop', stop_simulation, name='stop-simulation'),
     path('', include(router.urls)),
 ]
