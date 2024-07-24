@@ -5,3 +5,5 @@ requests
 python-dotenv
 websocket-client
 psycopg2
+drf-spectacular
+django-cors-headers
