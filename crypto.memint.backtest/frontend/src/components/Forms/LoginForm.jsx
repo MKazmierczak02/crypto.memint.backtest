@@ -2,26 +2,18 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Alert, Card, Col, Container, Form, Row } from 'react-bootstrap';
 import '../../static/css/loginform.css'
+import {Link} from "react-router-dom";
 
-const SignupForm = () => {
+const LoginForm = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
   const [errors, setErrors] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (password !== confirmPassword) {
-      setErrors({ password: "Passwords do not match" });
-      return;
-    }
     try {
-      const response = await axios.post('api/signup/', {
-        username,
-        password,
-        csrfmiddlewaretoken: 'your_csrf_token_here'
-      });
-      console.log(response.data);
+      const response = await axios.get('http://localhost:8000/api/simulator/symbols');
+      console.log(response);
     } catch (error) {
       setErrors(error.response.data);
     }
@@ -29,7 +21,7 @@ const SignupForm = () => {
 
   return (
     <Container className="vh-100 align-content-center saira-condensed-regular">
-      <h1 className="text-center mb-4">Sign Up</h1>
+      <h1 className="text-center mb-4">Log in</h1>
       <Row className="justify-content-center">
         <Col md={7}>
           <Card className="rounded-5 shadow-lg">
@@ -57,28 +49,17 @@ const SignupForm = () => {
                     className="form-control-lg"
                   />
                 </Form.Group>
-                <Form.Group className="mb-3 form-group-lg" controlId="formConfirmPassword">
-                  <Form.Label>Confirm Password</Form.Label>
-                  <Form.Control
-                    type="password"
-                    name="confirmPassword"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    required
-                    className="form-control-lg"
-                  />
-                </Form.Group>
                 {errors && (
                   <Alert variant="danger" role="alert">
                     ERROR
                   </Alert>
                 )}
                 <p>
-                  Already have an account?
-                  Log in here: <a href={"/login"}>Log in!</a>
+                  Dont have an account yet?
+                  Sign in here: <Link to={"/signup"}>Sign up!</Link>
                 </p>
                 <button className="login-button w-100 btn-lg">
-                  Sign Up
+                  Log In
                 </button>
               </Form>
             </Card.Body>
@@ -89,4 +70,4 @@ const SignupForm = () => {
   );
 };
 
-export default SignupForm;
+export default LoginForm;

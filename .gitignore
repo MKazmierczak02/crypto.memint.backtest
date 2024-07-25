@@ -1,9 +1,9 @@
 # py
-backend/__pycache__/
-backend/*/__pycache__/
-backend/*/*/__pycache__/
-backend/*/*/*/__pycache__/
-backend/db.sqlite3
+crypto.memint.backtest/__pycache__/
+crypto.memint.backtest/*/__pycache__/
+crypto.memint.backtest/*/*/__pycache__/
+crypto.memint.backtest/*/*/*/__pycache__/
+crypto.memint.backtest/db.sqlite3
 
 #env
 .idea
@@ -13,23 +13,22 @@ backend/db.sqlite3
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 #react
 # dependencies
-frontend/node_modules
-frontend/.pnp
-frontend/.pnp.js
+crypto.memint.backtest/frontend/node_modules
+crypto.memint.backtest/frontend/.pnp
+crypto.memint.backtest/frontend/.pnp.js
 
 # testing
-frontend/coverage
+crypto.memint.backtest/frontend/coverage
 
 # production
-frontend/build
+crypto.memint.backtest/frontend/build
 
 # misc
-frontend/.DS_Store
-frontend/.env.local
-frontend/.env.development.local
-frontend/.env.test.local
-frontend/.env.production.local
-
-frontend/npm-debug.log*
-frontend/yarn-debug.log*
-frontend/yarn-error.log*
+crypto.memint.backtest/frontend/.DS_Store
+crypto.memint.backtest/frontend/.env.local
+crypto.memint.backtest/frontend/.env.development.local
+crypto.memint.backtest/frontend/.env.test.local
+crypto.memint.backtest/frontend/.env.production.local
+crypto.memint.backtest/frontend/npm-debug.log*
+crypto.memint.backtest/frontend/yarn-debug.log*
+crypto.memint.backtest/frontend/yarn-error.log*

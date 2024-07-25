@@ -26,7 +26,8 @@ INSTALLED_APPS = [
     'drf_spectacular',
     'corsheaders',
     'core',
-    'simulator'
+    'simulator',
+    'frontend'
 ]
 
 MIDDLEWARE = [
@@ -54,7 +55,9 @@ ROOT_URLCONF = 'backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ["templates"],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'frontend/build')
+                 ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -108,7 +111,9 @@ LOGIN_URL = "/login"
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'frontend/build/static')
 ]
+
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'public', 'static')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'public', 'media')

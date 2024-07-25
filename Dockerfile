@@ -4,8 +4,8 @@ LABEL maintainer="Michal Kazmierczak"
 ENV PYTHONUNBUFFERED 1
 
 COPY ./requirements/* /tmp/requirements/
-COPY ./backend /backend
-WORKDIR /backend
+COPY ./crypto.memint.backtest /crypto.memint.backtest
+WORKDIR /crypto.memint.backtest
 EXPOSE 8000
 
 ARG DEV=false
