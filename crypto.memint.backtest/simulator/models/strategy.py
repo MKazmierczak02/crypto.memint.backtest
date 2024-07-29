@@ -4,13 +4,12 @@ from django.contrib.auth import get_user_model
 
 class Strategy(models.Model):
     name = models.CharField(max_length=100, verbose_name="Strategy Name")
-    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, verbose_name="User")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Created At")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="Updated At")
     description = models.TextField(verbose_name="Description")
     strategy_definition = models.JSONField(verbose_name="Strategy Definition")
 
-    # example
+    # example of strategy_definition
     # {
     #     "buy_conditions": [
     #         {"name": "MA_50_above_MA_200", "operator": ">", "value": "MA_50,MA_200"}
@@ -20,4 +19,4 @@ class Strategy(models.Model):
     #     ]
     # }
     def __str__(self):
-        return f"{self.name} by {self.user.username}"
+        return f"{self.name}"

@@ -11,14 +11,11 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class StrategySerializer(serializers.ModelSerializer):
-    user = UserSerializer(read_only=True)
-
     class Meta:
         model = Strategy
         fields = [
             "id",
             "name",
-            "user",
             "created_at",
             "updated_at",
             "description",
