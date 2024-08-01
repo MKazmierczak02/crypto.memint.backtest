@@ -1,22 +1,14 @@
 from django.db import models
-from django.contrib.auth import get_user_model
 
 
 class Strategy(models.Model):
     name = models.CharField(max_length=100, verbose_name="Strategy Name")
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Created At")
-    updated_at = models.DateTimeField(auto_now=True, verbose_name="Updated At")
-    description = models.TextField(verbose_name="Description")
-    strategy_definition = models.JSONField(verbose_name="Strategy Definition")
+    description = models.TextField(blank=True, null=True)
+    parameters = models.JSONField(default=dict)  # example: {"macd_threshold": 100, "rsi_threshold": 30, "buy_amount": 1, "sell_amount": 0.5}
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    conditions = models.ManyToManyField('Condition')
+    actions = models.ManyToManyField('Action')
 
-    # example of strategy_definition
-    # {
-    #     "buy_conditions": [
-    #         {"name": "MA_50_above_MA_200", "operator": ">", "value": "MA_50,MA_200"}
-    #     ],
-    #     "sell_conditions": [
-    #         {"name": "price_crosses_below_MA_50", "operator": "<", "value": "price,MA_50"}
-    #     ]
-    # }
     def __str__(self):
-        return f"{self.name}"
+        return self.name

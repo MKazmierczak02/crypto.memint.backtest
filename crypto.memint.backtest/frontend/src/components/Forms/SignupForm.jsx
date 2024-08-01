@@ -19,10 +19,8 @@ const SignupForm = () => {
     try {
       const response = await axios.post('api/signup/', {
         username,
-        password,
-        csrfmiddlewaretoken: 'your_csrf_token_here'
+        password
       });
-      console.log(response.data);
     } catch (error) {
       setErrors(error.response.data);
     }

@@ -2,21 +2,22 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Alert, Card, Col, Container, Form, Row } from 'react-bootstrap';
 import '../../static/css/loginform.css'
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {login} from "../../actions/userActions";
 
 const LoginForm = () => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState(null);
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await axios.get('http://localhost:8000/api/simulator/symbols');
-      console.log(response);
-    } catch (error) {
-      setErrors(error.response.data);
-    }
+    dispatch(login(email, password))
+    navigate("/")
   };
 
   return (
@@ -28,12 +29,12 @@ const LoginForm = () => {
             <Card.Body>
               <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3 form-group-lg" controlId="formUsername">
-                  <Form.Label>Username</Form.Label>
+                  <Form.Label>Email</Form.Label>
                   <Form.Control
                     type="text"
                     name="username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     required
                     className="form-control-lg"
                   />
