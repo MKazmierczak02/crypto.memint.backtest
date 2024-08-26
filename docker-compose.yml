@@ -23,6 +23,7 @@ services:
       - DEBUG=1
     depends_on:
       - db
+      - redis
 
   db:
     image: postgres:13-alpine
@@ -32,6 +33,47 @@ services:
       - POSTGRES_DB=dbdev
       - POSTGRES_USER=usrdev
       - POSTGRES_PASSWORD=passwd
+
+  celery:
+    build:
+      context: .
+      args:
+        - DEV=true
+    command: >
+      sh -c "celery -A backend worker --loglevel=info"
+    depends_on:
+      - redis
+      - backend
+    environment:
+      - DB_HOST=db
+      - DB_NAME=dbdev
+      - DB_USER=usrdev
+      - DB_PASSWD=passwd
+    volumes:
+      - ./crypto.memint.backtest:/crypto.memint.backtest
+
+  celery-beat:
+    build:
+      context: .
+      args:
+        - DEV=true
+    command: >
+      sh -c "celery -A backend beat --loglevel=info"
+    depends_on:
+      - redis
+      - backend
+    environment:
+      - DB_HOST=db
+      - DB_NAME=dbdev
+      - DB_USER=usrdev
+      - DB_PASSWD=passwd
+    volumes:
+      - ./crypto.memint.backtest:/crypto.memint.backtest
+
+  redis:
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
 
 volumes:
   db-dev-data:

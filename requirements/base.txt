@@ -8,3 +8,6 @@ websocket-client
 psycopg2
 drf-spectacular
 django-cors-headers
+
+redis
+celery

@@ -1,14 +1,12 @@
 import React from 'react';
 import {Container, Row, Col} from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import {useSelector} from "react-redux";
 
 const HelloPage = () => {
     const navigate = useNavigate();
-    const redirectHandler = () =>
-    {
-        return navigate("/strategies")
-    }
-
+    const userLogin = useSelector((state) => state.userLogin);
+    const { userInfo } = userLogin
 
   return (
       <section className="d-flex align-items-center min-vh-100">
@@ -24,9 +22,18 @@ const HelloPage = () => {
                       <img src="/static/media/main-pc.webp" alt="Trading" className="img-fluid"/>
                   </Col>
               </Row>
-              <Row className="w-100 justify-content-center">
-                  <button onClick={redirectHandler} className={"get-started-btn saira-condensed-regular mt-5"}>Get Started</button>
-              </Row>
+              {
+                  userInfo ?
+                      <>
+                        <Row className="w-100 justify-content-center">
+                          <button onClick={() => {navigate("/strategies")}} className={"get-started-btn saira-condensed-regular mt-5"}>Get Started</button>
+                        </Row>
+                      </>
+                      :
+                      <><Row className="w-100 justify-content-center">
+                          <button onClick={() => {navigate("/login")}} className={"get-started-btn saira-condensed-regular mt-5"}>Get Started</button>
+                      </Row></>
+              }
           </Container>
       </section>
   );

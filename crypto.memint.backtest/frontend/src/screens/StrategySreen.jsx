@@ -1,11 +1,12 @@
 import React from 'react';
 import StrategyList from '../components/StrategyList';
+import {Container} from "react-bootstrap";
 
 const StrategyScreen = () => {
   return (
-    <div className={"min-vh-100"}>
+    <Container className={"min-vh-100"}>
       <StrategyList />
-    </div>
+    </Container>
   );
 };
 

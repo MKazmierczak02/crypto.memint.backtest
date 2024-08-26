@@ -12,46 +12,94 @@ import NavigationBar from "./components/Navbar";
 import Footer from "./components/Footer";
 import StrategyScreen from "./screens/StrategySreen";
 import StrategyDetailsScreen from "./screens/StrategyDetailsScreen";
+import SimulationScreen from "./screens/SimulationScreen";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home />,
+    element: (
+      <>
+        <NavigationBar />
+        <Home />
+        <Footer />
+      </>
+    ),
     errorElement: <ErrorScreen />,
   },
   {
     path: "/login",
-    element: <Login />,
+    element: (
+      <>
+        <NavigationBar />
+        <Login />
+        <Footer />
+      </>
+    ),
     errorElement: <ErrorScreen />,
   },
   {
     path: "/signup",
-    element: <SignUp />,
+    element: (
+      <>
+        <NavigationBar />
+        <SignUp />
+        <Footer />
+      </>
+    ),
     errorElement: <ErrorScreen />,
   },
   {
     path: "/strategies",
-    element: <StrategyScreen />,
+    element: (
+      <>
+        <NavigationBar />
+        <StrategyScreen />
+        <Footer />
+      </>
+    ),
     errorElement: <ErrorScreen />,
   },
   {
     path: "/strategies/:id",
-    element: <StrategyDetailsScreen />,
+    element: (
+      <>
+        <NavigationBar />
+        <StrategyDetailsScreen />
+        <Footer />
+      </>
+    ),
     errorElement: <ErrorScreen />,
   },
+    {
+    path: "/simulations",
+    element: (
+      <>
+        <NavigationBar />
+        <SimulationScreen />
+        <Footer />
+      </>
+    ),
+    errorElement: <ErrorScreen />,
+  },
+  //   {
+  //   path: "/simulations/:id",
+  //   element: (
+  //     <>
+  //       <NavigationBar />
+  //       <SimulationDetailsScreen />
+  //       <Footer />
+  //     </>
+  //   ),
+  //   errorElement: <ErrorScreen />,
+  // },
+
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store} serverState={initialState}>
-    <header>
-      <NavigationBar />
-    </header>
     <main className={"saira-condensed-regular"}>
       <RouterProvider router={router} />
     </main>
-    <footer>
-      <Footer />
-    </footer>
   </Provider>
 );

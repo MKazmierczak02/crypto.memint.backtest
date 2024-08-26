@@ -49,7 +49,6 @@ class SymbolSerializer(serializers.ModelSerializer):
 class SimulationSerializer(serializers.ModelSerializer):
     strategy = StrategySerializer()
     transactions = TransactionSerializer(many=True, read_only=True)  # Ensure transactions are included properly
-    parameters = serializers.JSONField()
 
     class Meta:
         model = Simulation

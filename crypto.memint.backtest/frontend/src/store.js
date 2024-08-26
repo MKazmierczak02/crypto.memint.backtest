@@ -2,9 +2,11 @@ import {configureStore, combineReducers} from '@reduxjs/toolkit'
 import {thunk} from 'redux-thunk'
 import {strategyListReducer, strategyDetailsReducer} from "./reducers/strategyReducers";
 import {userLoginReducer} from "./reducers/loginReducer"
+import {simulationsListReducer} from "./reducers/simulationReducers";
 
 const reducer = combineReducers({
     strategyList: strategyListReducer,
+    simulationsList: simulationsListReducer,
     strategyDetails: strategyDetailsReducer,
     userLogin: userLoginReducer
 });

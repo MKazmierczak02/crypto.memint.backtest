@@ -49,11 +49,16 @@ footer {
   font-size: 2.5rem;
 }
 
+a:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
 .navbar-logo {
   font-size: 5rem;
 }
 
 .navbar-logo:hover {
+  cursor: pointer;
   text-decoration: none;
 }
 
@@ -179,6 +184,43 @@ footer {
 .button-close {
   color: white;
 }
+
+.button-strategy {
+  font-size: 2rem;
+  background: #0f5132;
+  border: none;
+  border-radius: 5px;
+  padding: 1rem 2rem 1rem 2rem;
+}
+
+.button-strategy:hover{
+  background-color: #0a3622;
+}
+
+
+.button-start-simulation {
+  font-size: 1rem;
+  background: #0f5132;
+  border: none;
+  border-radius: 5px;
+}
+
+.button-start-simulation:hover{
+  background-color: #0a3622;
+}
+
+.button-stop-simulation {
+  font-size: 1rem;
+  background: #61120f;
+  border: none;
+  border-radius: 5px;
+}
+
+.button-stop-simulation:hover{
+  background-color: #51120f;
+}
+
+
 
 table {
   width: 100%;

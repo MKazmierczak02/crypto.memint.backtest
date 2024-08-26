@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { Alert, Card, Col, Container, Form, Row } from 'react-bootstrap';
 import '../../static/css/loginform.css'
 import {Link} from "react-router-dom";
@@ -16,14 +15,7 @@ const SignupForm = () => {
       setErrors({ password: "Passwords do not match" });
       return;
     }
-    try {
-      const response = await axios.post('api/signup/', {
-        username,
-        password
-      });
-    } catch (error) {
-      setErrors(error.response.data);
-    }
+
   };
 
   return (

@@ -1,13 +1,15 @@
 import React from 'react';
 import {Col, Container, Nav, Row} from "react-bootstrap";
+import {useNavigate} from "react-router-dom";
 
 const Footer = () => {
+    const navigate = useNavigate()
   return (
       <Container className={"saira-condensed-bold pt-4"}>
         <Row>
           <Col md={12} className="justify-content-center d-flex align-items-center">
             <Nav className="footer-nav">
-              <Nav.Link href="/privacy-policy" className="footer-link me-3">Privacy Policy</Nav.Link>
+              <Nav.Link onClick={() => navigate("/privacy-policy")} className="footer-link me-3">Privacy Policy</Nav.Link>
               <Nav.Link href="#terms-of-service" className="footer-link me-3">Terms of Service</Nav.Link>
               <Nav.Link href="#contact" className="footer-link">Contact</Nav.Link>
             </Nav>

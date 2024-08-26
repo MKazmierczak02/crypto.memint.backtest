@@ -10,8 +10,8 @@ class StrategyViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        # return Strategy.objects.filter(user=self.request.user)
-        return Strategy.objects.all()
+        return Strategy.objects.filter(user=self.request.user)
+        # return Strategy.objects.all()
 
     def perform_create(self, serializer):
         serializer.save(user=User.objects.first())

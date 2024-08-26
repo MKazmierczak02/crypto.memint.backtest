@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { Alert, Card, Col, Container, Form, Row } from 'react-bootstrap';
 import '../../static/css/loginform.css'
 import {Link, useNavigate} from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {login} from "../../actions/userActions";
 
 const LoginForm = () => {

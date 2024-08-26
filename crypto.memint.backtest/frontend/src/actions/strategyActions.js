@@ -4,21 +4,14 @@ import {
     STRATEGY_LIST_SUCCESS,
     STRATEGY_LIST_FAIL, STRATEGY_DETAILS_REQUEST, STRATEGY_DETAILS_SUCCESS, STRATEGY_DETAILS_FAIL
 } from "../constans/actionTypes";
+import {getAuthConfig} from "../utils/apiConfig";
 
 
 export const listStrategies = () => async (dispatch, getState)  => {
     try {
         dispatch({ type: STRATEGY_LIST_REQUEST })
-        console.log('State before accessing userInfo:', getState());
-        const {
-            userLogin: { userInfo },
-        } = getState();
-
-        const config = {
-            headers: {
-                Authorization: `Bearer ${userInfo?.token}`,
-            },
-        };
+        
+        const config = getAuthConfig(getState);
 
         const { data } = await axios.get('/api/simulator/strategies/', config)
         dispatch({
@@ -36,11 +29,13 @@ export const listStrategies = () => async (dispatch, getState)  => {
 }
 
 
-export const listStrategyDetails = (id) => async dispatch  => {
+export const listStrategyDetails = (id) => async (dispatch, getState)  => {
     try {
         dispatch({ type: STRATEGY_DETAILS_REQUEST })
 
-        const { data } = await axios.get(`/api/simulator/strategies/${id}`)
+        const config = getAuthConfig(getState);
+
+        const { data } = await axios.get(`/api/simulator/strategies/${id}`, config)
         dispatch({
             type: STRATEGY_DETAILS_SUCCESS,
             payload: data
