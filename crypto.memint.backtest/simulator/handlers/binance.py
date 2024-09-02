@@ -1,11 +1,12 @@
-import requests
-from datetime import datetime
-import time
-import websocket
 import json
+import time
+from datetime import datetime
 
-from ..models import PriceData, Symbol
+import requests
+import websocket
+
 from ..exceptions import FetchBinanceDataException
+from ..models import PriceData, Symbol
 
 
 class BinanceWebSocketClient:
@@ -13,17 +14,19 @@ class BinanceWebSocketClient:
         self.prices = {}
         self.symbols = symbols
         self.started = True
-        self.ws = websocket.WebSocketApp("wss://stream.binance.com:9443/ws",
-                                         on_message=self.on_message,
-                                         on_error=self.on_error,
-                                         on_close=self.on_close,
-                                         on_open=self.on_open)
+        self.ws = websocket.WebSocketApp(
+            "wss://stream.binance.com:9443/ws",
+            on_message=self.on_message,
+            on_error=self.on_error,
+            on_close=self.on_close,
+            on_open=self.on_open,
+        )
 
     def on_message(self, ws, message):
         data = json.loads(message)
-        if 's' in data:
-            symbol = data['s'].upper()
-            self.prices[symbol] = [float(data['c']), float(data['E'])]
+        if "s" in data:
+            symbol = data["s"].upper()
+            self.prices[symbol] = [float(data["c"]), float(data["E"])]
 
     def on_error(self, ws, error):
         self.started = False
@@ -35,11 +38,13 @@ class BinanceWebSocketClient:
     def reconnect(self):
         print("Attempting to reconnect...")
         time.sleep(10)
-        self.ws = websocket.WebSocketApp("wss://stream.binance.com:9443/ws",
-                                         on_message=self.on_message,
-                                         on_error=self.on_error,
-                                         on_close=self.on_close,
-                                         on_open=self.on_open)
+        self.ws = websocket.WebSocketApp(
+            "wss://stream.binance.com:9443/ws",
+            on_message=self.on_message,
+            on_error=self.on_error,
+            on_close=self.on_close,
+            on_open=self.on_open,
+        )
         self.ws.on_open = self.on_open
         self.run_forever()
 
@@ -83,30 +88,41 @@ def get_data_from_last(symbol: Symbol, interval="1m", limit=5):
                 #     "close_price": close_price,
                 #     "volume": volume
                 # })
-                PriceData.objects.create(timestamp=timestamp, symbol=symbol, open_price=open_price,
-                                         high_price=high_price, low_price=low_price, close_price=close_price,
-                                         volume=volume
-                                         )
+                PriceData.objects.create(
+                    timestamp=timestamp,
+                    symbol=symbol,
+                    open_price=open_price,
+                    high_price=high_price,
+                    low_price=low_price,
+                    close_price=close_price,
+                    volume=volume,
+                )
 
         else:
-            raise FetchBinanceDataException(f"Failed to retrieve historical data for symbol {symbol}."
-                                            f" Response code: {response.status_code}")
+            raise FetchBinanceDataException(
+                f"Failed to retrieve historical data for symbol {symbol}."
+                f" Response code: {response.status_code}"
+            )
     except Exception as e:
-        raise FetchBinanceDataException(f"Failed to retrieve historical data for symbol {symbol}.")
+        raise FetchBinanceDataException(
+            f"Failed to retrieve historical data for symbol {symbol}."
+        )
 
 
 def get_current_symbol_price(symbol):
     try:
         url = "https://api.binance.com/api/v3/ticker/price"
-        params = {'symbol': symbol}
+        params = {"symbol": symbol}
         response = requests.get(url, params=params)
         current_timestamp = int(time.time())
         if response.status_code == 200:
             data = response.json()
-            symbol_price = float(data['price'])
+            symbol_price = float(data["price"])
             return [symbol_price, current_timestamp]
         else:
-            raise FetchBinanceDataException(f"Failed to retrieve data for symbol {symbol}."
-                                            f" Response code: {response.status_code}")
+            raise FetchBinanceDataException(
+                f"Failed to retrieve data for symbol {symbol}."
+                f" Response code: {response.status_code}"
+            )
     except Exception as e:
         raise FetchBinanceDataException(f"Failed to retrieve data for symbol {symbol}.")

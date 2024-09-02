@@ -1,11 +1,12 @@
 from django.db import models
+
 from .simulation import Simulation
 
 
 class Transaction(models.Model):
     TRANSACTION_TYPE_CHOICES = [
-        ('BUY', 'Buy'),
-        ('SELL', 'Sell'),
+        ("BUY", "Buy"),
+        ("SELL", "Sell"),
     ]
     transaction_type = models.CharField(max_length=10, choices=TRANSACTION_TYPE_CHOICES)
     date = models.DateTimeField()

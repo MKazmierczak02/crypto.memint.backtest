@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('simulator', '0005_remove_simulation_user_strategy_user'),
+        ("simulator", "0005_remove_simulation_user_strategy_user"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='strategy',
-            name='private',
+            model_name="strategy",
+            name="private",
             field=models.BooleanField(default=True),
         ),
     ]

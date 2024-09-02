@@ -1,18 +1,17 @@
 from datetime import datetime
 
-from django.shortcuts import get_object_or_404
+from celery.result import AsyncResult
 from django.contrib.auth import get_user_model
-from rest_framework import viewsets
-from ..models import Simulation
-from ..tasks import analyze_market_data
-from ..serializers import SimulationSerializer, ControlIdSerializer
+from django.shortcuts import get_object_or_404
+from drf_spectacular.utils import extend_schema
+from rest_framework import status, viewsets
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
-from rest_framework.decorators import permission_classes
-from rest_framework import status
-from drf_spectacular.utils import extend_schema
-from celery.result import AsyncResult
+
+from ..models import Simulation
+from ..serializers import ControlIdSerializer, SimulationSerializer
+from ..tasks import analyze_market_data
 
 simulation_threads = {}
 User = get_user_model()
@@ -28,16 +27,17 @@ class SimulationViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
+
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
-@extend_schema(
-    request=ControlIdSerializer,
-    methods=['POST']
-)
+@extend_schema(request=ControlIdSerializer, methods=["POST"])
 def start_simulation(request):
-    id = request.data.get('id')
+    id = request.data.get("id")
     if not id:
-        return Response({"status": "error", "message": "id: Simulation ID is required."}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(
+            {"status": "error", "message": "id: Simulation ID is required."},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
 
     simulation = get_object_or_404(Simulation, id=id, strategy__user=request.user)
     simulation.start_date = datetime.now()
@@ -53,20 +53,25 @@ def start_simulation(request):
 
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
-@extend_schema(
-    request=ControlIdSerializer,
-    methods=['POST']
-)
+@extend_schema(request=ControlIdSerializer, methods=["POST"])
 def check_analysis_result(request):
-    id = request.data.get('id')
+    id = request.data.get("id")
     if not id:
-        return Response({"status": "error", "message": "id: Simulation ID is required."}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(
+            {"status": "error", "message": "id: Simulation ID is required."},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
     simulation = get_object_or_404(Simulation, id=id, strategy__user=request.user)
     if simulation.task_id:
         task = AsyncResult(simulation.task_id)
-        if task.state == 'SUCCESS':
+        if task.state == "SUCCESS":
             result_id = task.result
-            return Response({"status": "completed", "result": result_id}, status=status.HTTP_200_OK)
+            return Response(
+                {"status": "completed", "result": result_id}, status=status.HTTP_200_OK
+            )
         else:
             return Response({"status": task.state}, status=status.HTTP_200_OK)
-    return Response({"status": "ok", "message": "Simulation was not started."}, status=status.HTTP_200_OK)
+    return Response(
+        {"status": "ok", "message": "Simulation was not started."},
+        status=status.HTTP_200_OK,
+    )

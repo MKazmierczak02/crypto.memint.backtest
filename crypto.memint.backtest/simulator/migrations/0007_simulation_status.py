@@ -6,13 +6,21 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('simulator', '0006_strategy_private'),
+        ("simulator", "0006_strategy_private"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='simulation',
-            name='status',
-            field=models.CharField(choices=[('Stopped', 'Stopped'), ('Ready', 'Ready'), ('Running', 'Running'), ('Finished', 'Finished')], default='Ready'),
+            model_name="simulation",
+            name="status",
+            field=models.CharField(
+                choices=[
+                    ("Stopped", "Stopped"),
+                    ("Ready", "Ready"),
+                    ("Running", "Running"),
+                    ("Finished", "Finished"),
+                ],
+                default="Ready",
+            ),
         ),
     ]

@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('simulator', '0003_action_condition_transaction_and_more'),
+        ("simulator", "0003_action_condition_transaction_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='simulation',
-            name='transactions',
-            field=models.ManyToManyField(blank=True, to='simulator.transaction'),
+            model_name="simulation",
+            name="transactions",
+            field=models.ManyToManyField(blank=True, to="simulator.transaction"),
         ),
     ]

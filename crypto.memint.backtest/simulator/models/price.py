@@ -1,4 +1,5 @@
 from django.db import models
+
 from .symbol import Symbol
 from .timeframe import TimeFrame
 
@@ -14,9 +15,9 @@ class PriceData(models.Model):
     volume = models.DecimalField(max_digits=30, decimal_places=10)
 
     class Meta:
-        unique_together = ('pair', 'timeframe', 'timestamp')
+        unique_together = ("pair", "timeframe", "timestamp")
         indexes = [
-            models.Index(fields=['pair', 'timeframe', 'timestamp']),
+            models.Index(fields=["pair", "timeframe", "timestamp"]),
         ]
 
     def __str__(self):

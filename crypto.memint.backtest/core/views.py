@@ -1,10 +1,10 @@
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
-from rest_framework.views import APIView
 
 from .serializers import UserSerializer, UserSerializerWithToken, UserSignupSerializer
 
@@ -16,8 +16,8 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         serializer = UserSerializerWithToken(self.user).data
         for k, v in serializer.items():
             data[k] = v
-        del data['access']
-        del data['refresh']
+        del data["access"]
+        del data["refresh"]
         return data
 
 
@@ -34,7 +34,7 @@ class UserProfileView(APIView):
         return Response(serializer.data)
 
 
-@api_view(['POST'])
+@api_view(["POST"])
 def signup_view(request):
     serializer = UserSignupSerializer(data=request.data)
     if serializer.is_valid():

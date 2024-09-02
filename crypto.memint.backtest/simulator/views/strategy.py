@@ -1,8 +1,9 @@
+from django.contrib.auth.models import User
 from rest_framework import viewsets
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
+
 from ..models import Strategy
 from ..serializers import StrategySerializer
-from django.contrib.auth.models import User
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
 
 class StrategyViewSet(viewsets.ModelViewSet):

@@ -9,7 +9,7 @@ class Symbol(models.Model):
         return f"{self.base_currency}/{self.quote_currency}"
 
     class Meta:
-        unique_together = ('base_currency', 'quote_currency')
+        unique_together = ("base_currency", "quote_currency")
         indexes = [
-            models.Index(fields=['base_currency', 'quote_currency']),
+            models.Index(fields=["base_currency", "quote_currency"]),
         ]

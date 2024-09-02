@@ -1,5 +1,16 @@
 from django.contrib import admin
-from .models import Simulation, Symbol, Strategy, PriceData, Condition, Transaction, Action, TimeFrame, TechnicalIndicator
+
+from .models import (
+    Action,
+    Condition,
+    PriceData,
+    Simulation,
+    Strategy,
+    Symbol,
+    TechnicalIndicator,
+    TimeFrame,
+    Transaction,
+)
 
 admin.site.register(Simulation)
 admin.site.register(Symbol)

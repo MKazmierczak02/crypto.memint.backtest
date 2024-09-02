@@ -1,8 +1,9 @@
 import datetime
+
 from celery import shared_task
 
-from .models import Simulation, Symbol
 from .handlers import SimulationTask
+from .models import Simulation, Symbol
 
 
 def get_market_data(symbol: Symbol):

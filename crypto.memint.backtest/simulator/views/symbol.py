@@ -1,7 +1,8 @@
 from rest_framework import viewsets
+
 from ..models import Symbol
-from ..serializers import SymbolSerializer
 from ..permissions import IsAdminUserOrReadOnly
+from ..serializers import SymbolSerializer
 
 
 class SymbolViewSet(viewsets.ModelViewSet):

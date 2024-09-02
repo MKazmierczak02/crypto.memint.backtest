@@ -1,7 +1,8 @@
 from rest_framework import viewsets
+
 from ..models import PriceData
-from ..serializers import PriceDataSerializer
 from ..permissions import IsAdminUserOrReadOnly
+from ..serializers import PriceDataSerializer
 
 
 class PriceViewSet(viewsets.ModelViewSet):
@@ -10,8 +11,10 @@ class PriceViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAdminUserOrReadOnly,)
 
     def get_queryset(self):
-        crypto = self.request.query_params.get('crypto')
-        vs_currency = self.request.query_params.get('vs_currency')
+        crypto = self.request.query_params.get("crypto")
+        vs_currency = self.request.query_params.get("vs_currency")
         if crypto and vs_currency:
-            return PriceData.objects.filter(symbol__crypto=crypto, symbol__vs_currency=vs_currency)
+            return PriceData.objects.filter(
+                symbol__crypto=crypto, symbol__vs_currency=vs_currency
+            )
         return PriceData.objects.none()
