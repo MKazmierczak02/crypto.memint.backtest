@@ -9,5 +9,4 @@ class SymbolViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAdminUserOrReadOnly]
 
     def get_queryset(self):
-        # return Strategy.objects.filter(user=self.request.user)
         return Symbol.objects.all()

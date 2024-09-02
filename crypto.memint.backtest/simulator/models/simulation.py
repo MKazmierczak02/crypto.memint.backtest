@@ -20,6 +20,7 @@ class Simulation(models.Model):
     transactions = models.ManyToManyField('Transaction', blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     status = models.CharField(choices=STATUS_CHOICES, default='Ready')
+    task_id = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
         return f"#{self.id} | Simulation of {self.strategy.name} from {self.start_date} to {self.end_date}"

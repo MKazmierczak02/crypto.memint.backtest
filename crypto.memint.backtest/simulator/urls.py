@@ -11,7 +11,7 @@ from .views import (
 
 router = SimpleRouter()
 router.register(r'strategies', StrategyViewSet, basename='strategies')
-router.register(r'symbols', SymbolViewSet, basename='symbols')
+router.register(r'pairs', SymbolViewSet, basename='symbols')
 router.register(r'simulations', SimulationViewSet, basename='simulations')
 router.register(r'prices', PriceViewSet, basename='prices')
 

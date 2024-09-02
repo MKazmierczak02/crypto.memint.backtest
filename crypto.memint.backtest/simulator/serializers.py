@@ -60,7 +60,7 @@ class ControlIdSerializer(serializers.Serializer):
 
 
 class PriceDataSerializer(serializers.ModelSerializer):
-    symbol = serializers.PrimaryKeyRelatedField(queryset=Symbol.objects.all())
+    pair = serializers.PrimaryKeyRelatedField(queryset=Symbol.objects.all())
 
     class Meta:
         model = PriceData

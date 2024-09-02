@@ -38,6 +38,7 @@ const SimulationList = () => {
                   <th>Final Balance</th>
                   <th>ROI [%]</th>
                   <th>Max Drawdown [%]</th>
+                  <th>Status</th>
                   <th>Actions</th>
                 </tr>
               </thead>
