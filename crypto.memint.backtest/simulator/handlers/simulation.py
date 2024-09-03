@@ -1,7 +1,6 @@
-import threading
 import time
 
-from ..models import Simulation
+from simulator.models import Simulation
 
 
 class SimulationTask:

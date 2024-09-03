@@ -9,5 +9,13 @@ psycopg2
 drf-spectacular
 django-cors-headers
 
+# analyze
+pandas
+
+# tasks
 redis
 celery
+django-celery-beat
+
+# apis
+python-binance

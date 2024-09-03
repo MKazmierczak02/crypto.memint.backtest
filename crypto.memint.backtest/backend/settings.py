@@ -25,10 +25,11 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "drf_spectacular",
+    "django_celery_beat",
     "corsheaders",
-    "core",
-    "simulator",
-    "frontend",
+    "core.apps.CoreConfig",
+    "simulator.apps.SimulatorConfig",
+    "frontend.apps.FrontendConfig",
 ]
 
 MIDDLEWARE = [

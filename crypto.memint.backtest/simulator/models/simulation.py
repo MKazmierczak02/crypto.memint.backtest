@@ -1,6 +1,6 @@
 from django.db import models
-
 from .symbol import Symbol
+from .timeframe import TimeFrame
 
 
 class Simulation(models.Model):
@@ -12,12 +12,18 @@ class Simulation(models.Model):
     ]
     strategy = models.ForeignKey(
         "Strategy", on_delete=models.CASCADE
-    )  # Strategia używana w symulacji
+    )
     symbol = models.OneToOneField(
         Symbol, related_name="simulations", on_delete=models.CASCADE
     )
-    start_date = models.DateField(null=True, blank=True)
-    end_date = models.DateField(null=True, blank=True)
+    timeframe = models.OneToOneField(TimeFrame, on_delete=models.CASCADE)
+
+    data_start_date = models.DateField(null=True, blank=True)
+    data_end_date = models.DateField(null=True, blank=True)
+
+    start_date = models.DateTimeField(null=True, blank=True)
+    end_date = models.DateTimeField(null=True, blank=True)
+
     initial_balance = models.FloatField()
     final_balance = models.FloatField(blank=True, null=True)
     roi = models.FloatField(blank=True, null=True)
