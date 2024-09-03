@@ -7,34 +7,38 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('simulator', '0010_technicalindicator'),
+        ("simulator", "0010_technicalindicator"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='simulation',
-            name='data_end_date',
+            model_name="simulation",
+            name="data_end_date",
             field=models.DateField(blank=True, null=True),
         ),
         migrations.AddField(
-            model_name='simulation',
-            name='data_start_date',
+            model_name="simulation",
+            name="data_start_date",
             field=models.DateField(blank=True, null=True),
         ),
         migrations.AddField(
-            model_name='simulation',
-            name='timeframe',
-            field=models.OneToOneField(default='1w', on_delete=django.db.models.deletion.CASCADE, to='simulator.timeframe'),
+            model_name="simulation",
+            name="timeframe",
+            field=models.OneToOneField(
+                default="1w",
+                on_delete=django.db.models.deletion.CASCADE,
+                to="simulator.timeframe",
+            ),
             preserve_default=False,
         ),
         migrations.AlterField(
-            model_name='simulation',
-            name='end_date',
+            model_name="simulation",
+            name="end_date",
             field=models.DateTimeField(blank=True, null=True),
         ),
         migrations.AlterField(
-            model_name='simulation',
-            name='start_date',
+            model_name="simulation",
+            name="start_date",
             field=models.DateTimeField(blank=True, null=True),
         ),
     ]

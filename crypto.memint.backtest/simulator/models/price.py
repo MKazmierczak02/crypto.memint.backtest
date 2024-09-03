@@ -2,11 +2,15 @@ from django.db import models
 
 from .symbol import Symbol
 from .timeframe import TimeFrame
+from .technical_indicator import TechnicalIndicator
 
 
 class PriceData(models.Model):
     pair = models.ForeignKey(Symbol, on_delete=models.CASCADE)
     timeframe = models.ForeignKey(TimeFrame, on_delete=models.CASCADE)
+    technical_indicator = models.OneToOneField(
+        TechnicalIndicator, null=True, blank=True, on_delete=models.CASCADE
+    )
     timestamp = models.DateTimeField()
     open = models.DecimalField(max_digits=20, decimal_places=10)
     high = models.DecimalField(max_digits=20, decimal_places=10)

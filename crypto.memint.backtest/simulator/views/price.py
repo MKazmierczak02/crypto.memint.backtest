@@ -11,10 +11,10 @@ class PriceViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAdminUserOrReadOnly,)
 
     def get_queryset(self):
-        crypto = self.request.query_params.get("crypto")
-        vs_currency = self.request.query_params.get("vs_currency")
+        crypto = self.request.query_params.get("base")
+        vs_currency = self.request.query_params.get("quote")
         if crypto and vs_currency:
             return PriceData.objects.filter(
-                symbol__crypto=crypto, symbol__vs_currency=vs_currency
+                pair__base_currency=crypto, pair__quote_currency=vs_currency
             )
-        return PriceData.objects.none()
+        return PriceData.objects.all()

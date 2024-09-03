@@ -10,13 +10,12 @@ class Simulation(models.Model):
         ("Running", "Running"),
         ("Finished", "Finished"),
     ]
-    strategy = models.ForeignKey(
-        "Strategy", on_delete=models.CASCADE
-    )
-    symbol = models.OneToOneField(
+    strategy = models.ForeignKey("Strategy", on_delete=models.CASCADE)
+    symbol = models.ForeignKey(
         Symbol, related_name="simulations", on_delete=models.CASCADE
     )
-    timeframe = models.OneToOneField(TimeFrame, on_delete=models.CASCADE)
+    transactions = models.ManyToManyField("Transaction", blank=True)
+    timeframe = models.ForeignKey(TimeFrame, on_delete=models.CASCADE)
 
     data_start_date = models.DateField(null=True, blank=True)
     data_end_date = models.DateField(null=True, blank=True)
@@ -28,7 +27,6 @@ class Simulation(models.Model):
     final_balance = models.FloatField(blank=True, null=True)
     roi = models.FloatField(blank=True, null=True)
     max_drawdown = models.FloatField(blank=True, null=True)
-    transactions = models.ManyToManyField("Transaction", blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     status = models.CharField(choices=STATUS_CHOICES, default="Ready")
     task_id = models.CharField(max_length=255, blank=True, null=True)

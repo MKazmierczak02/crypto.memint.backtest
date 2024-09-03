@@ -1,10 +1,7 @@
 from django.db import models
 
-from .price import PriceData
-
 
 class TechnicalIndicator(models.Model):
-    price = models.OneToOneField(PriceData, on_delete=models.CASCADE, primary_key=True)
     sma_20 = models.DecimalField(
         max_digits=20, decimal_places=10, null=True, blank=True
     )
@@ -22,6 +19,3 @@ class TechnicalIndicator(models.Model):
     bollinger_lower = models.DecimalField(
         max_digits=20, decimal_places=10, null=True, blank=True
     )
-
-    def __str__(self):
-        return f"Indicators for {self.price}"

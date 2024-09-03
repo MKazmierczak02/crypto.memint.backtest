@@ -9,6 +9,8 @@ from .models import (
     Strategy,
     Symbol,
     Transaction,
+    TimeFrame,
+    TechnicalIndicator,
 )
 
 User = get_user_model()
@@ -55,11 +57,17 @@ class SymbolSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class TimeFrameSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TimeFrame
+        fields = "__all__"
+
+
 class SimulationSerializer(serializers.ModelSerializer):
     strategy = StrategySerializer()
-    transactions = TransactionSerializer(
-        many=True, read_only=True
-    )  # Ensure transactions are included properly
+    transactions = TransactionSerializer(many=True, read_only=True)
+    symbol = SymbolSerializer()
+    timeframe = TimeFrameSerializer()
 
     class Meta:
         model = Simulation
@@ -72,8 +80,16 @@ class ControlIdSerializer(serializers.Serializer):
     )
 
 
+class TechnicalIndicatorSerializer(serializers.Serializer):
+
+    class Meta:
+        model = TechnicalIndicator
+        fields = "__all__"
+
+
 class PriceDataSerializer(serializers.ModelSerializer):
     pair = serializers.PrimaryKeyRelatedField(queryset=Symbol.objects.all())
+    technical_indicator = TechnicalIndicatorSerializer()
 
     class Meta:
         model = PriceData

@@ -2,14 +2,14 @@ from django.db import models
 from binance.client import Client
 
 BINANCE_MAPPINGS = {
-    '1m': Client.KLINE_INTERVAL_1MINUTE,
-    '5m': Client.KLINE_INTERVAL_5MINUTE,
-    '30m': Client.KLINE_INTERVAL_30MINUTE,
-    '1h': Client.KLINE_INTERVAL_1HOUR,
-    '4h': Client.KLINE_INTERVAL_4HOUR,
-    '1d': Client.KLINE_INTERVAL_1DAY,
-    '1w': Client.KLINE_INTERVAL_1WEEK,
-    '1mo': Client.KLINE_INTERVAL_1MONTH,
+    "1m": Client.KLINE_INTERVAL_1MINUTE,
+    "5m": Client.KLINE_INTERVAL_5MINUTE,
+    "30m": Client.KLINE_INTERVAL_30MINUTE,
+    "1h": Client.KLINE_INTERVAL_1HOUR,
+    "4h": Client.KLINE_INTERVAL_4HOUR,
+    "1d": Client.KLINE_INTERVAL_1DAY,
+    "1w": Client.KLINE_INTERVAL_1WEEK,
+    "1mo": Client.KLINE_INTERVAL_1MONTH,
 }
 
 
