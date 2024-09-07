@@ -1,4 +1,5 @@
 from django.db import models
+
 from .symbol import Symbol
 from .timeframe import TimeFrame
 
@@ -32,4 +33,4 @@ class Simulation(models.Model):
     task_id = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
-        return f"#{self.id} | Simulation of {self.strategy.name} from {self.start_date} to {self.end_date}"
+        return f"#{self.id} | Simulation of {self.strategy.name}"

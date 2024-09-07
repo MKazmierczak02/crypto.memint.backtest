@@ -1,17 +1,8 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
-from .models import (
-    Action,
-    Condition,
-    PriceData,
-    Simulation,
-    Strategy,
-    Symbol,
-    Transaction,
-    TimeFrame,
-    TechnicalIndicator,
-)
+from .models import (Action, Condition, PriceData, Simulation, Strategy,
+                     Symbol, TimeFrame, Transaction)
 
 User = get_user_model()
 
@@ -80,16 +71,8 @@ class ControlIdSerializer(serializers.Serializer):
     )
 
 
-class TechnicalIndicatorSerializer(serializers.Serializer):
-
-    class Meta:
-        model = TechnicalIndicator
-        fields = "__all__"
-
-
 class PriceDataSerializer(serializers.ModelSerializer):
     pair = serializers.PrimaryKeyRelatedField(queryset=Symbol.objects.all())
-    technical_indicator = TechnicalIndicatorSerializer()
 
     class Meta:
         model = PriceData

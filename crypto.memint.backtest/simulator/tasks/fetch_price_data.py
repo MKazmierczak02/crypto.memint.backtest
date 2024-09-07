@@ -1,8 +1,10 @@
 from __future__ import absolute_import, unicode_literals
+
+import pandas as pd
 from celery import shared_task
 from core.api_connector.binance.service import BinanceApiHandler
-import pandas as pd
-from ..models import PriceData, TimeFrame, Symbol
+
+from ..models import PriceData, Symbol, TimeFrame
 
 
 @shared_task

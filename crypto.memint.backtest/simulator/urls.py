@@ -1,14 +1,8 @@
 from django.urls import include, path
 from rest_framework.routers import SimpleRouter
 
-from .views import (
-    PriceViewSet,
-    SimulationViewSet,
-    StrategyViewSet,
-    SymbolViewSet,
-    check_analysis_result,
-    start_simulation,
-)
+from .views import (PriceViewSet, SimulationViewSet, StrategyViewSet,
+                    SymbolViewSet, check_analysis_result, start_simulation)
 
 router = SimpleRouter()
 router.register(r"strategies", StrategyViewSet, basename="strategies")

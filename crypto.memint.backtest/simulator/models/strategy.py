@@ -8,12 +8,12 @@ class Strategy(models.Model):
     user = ForeignKey(get_user_model(), on_delete=models.CASCADE)
     description = models.TextField(blank=True, null=True)
     parameters = models.JSONField(
-        default=dict
+        default=dict, null=True, blank=True, verbose_name="Strategy Parameters"
     )  # example: {"macd_threshold": 100, "rsi_threshold": 30, "buy_amount": 1, "sell_amount": 0.5}
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     conditions = models.ManyToManyField("Condition")
-    actions = models.ManyToManyField("Action")
+    actions = models.ManyToManyField("Action", blank=True, null=True)
     private = models.BooleanField(default=True)
 
     def __str__(self):

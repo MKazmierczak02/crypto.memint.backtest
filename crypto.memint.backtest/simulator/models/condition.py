@@ -2,26 +2,43 @@ from django.db import models
 
 
 class Condition(models.Model):
-    CONDITION_CHOICES = [
+    INDICATORS_CHOICES = [
         ("MACD", "MACD"),
         ("PRICE", "Price"),
         ("RSI", "RSI"),
+        ("MA20", "MA20"),
+        ("MA50", "MA50"),
+        ("MA100", "MA100"),
+        ("MA200", "MA200"),
     ]
-
+    TYPE_CHOICES = [
+        ("BUY", "BUY"),
+        ("SELL", "SELL"),
+    ]
     OPERATOR_CHOICES = [
         (">=", "Greater than or equal to"),
         ("<=", "Less than or equal to"),
         ("==", "Equal to"),
         ("<", "Less than"),
         (">", "Greater than"),
+        ("CROSSOVER", "Crossover"),
     ]
-
-    indicator = models.CharField(max_length=50, choices=CONDITION_CHOICES)
-    operator = models.CharField(max_length=2, choices=OPERATOR_CHOICES)
-    value = models.FloatField()
+    type = models.CharField(max_length=20, choices=TYPE_CHOICES)
+    indicator = models.CharField(max_length=50, choices=INDICATORS_CHOICES)
+    comparison_indicator = models.CharField(
+        max_length=50, choices=INDICATORS_CHOICES, null=True, blank=True
+    )
+    value = models.FloatField(null=True, blank=True)
+    crossover_direction = models.CharField(
+        max_length=4,
+        choices=[("UP", "Crossover Up"), ("DOWN", "Crossover Down")],
+        null=True,
+        blank=True,
+    )
+    operator = models.CharField(max_length=10, choices=OPERATOR_CHOICES)
     join_operator = models.CharField(
         max_length=3, choices=[("AND", "AND"), ("OR", "OR")], default="AND"
     )
 
     def __str__(self):
-        return f"{self.indicator} {self.operator} {self.value}"
+        return f"{self.indicator} {self.operator} {self.value if self.value else self.comparison_indicator}"

@@ -4,6 +4,5 @@ from .price import PriceData
 from .simulation import Simulation
 from .strategy import Strategy
 from .symbol import Symbol
-from .technical_indicator import TechnicalIndicator
 from .timeframe import TimeFrame
 from .transaction import Transaction

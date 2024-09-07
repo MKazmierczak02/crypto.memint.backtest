@@ -8,9 +8,13 @@ websocket-client
 psycopg2
 drf-spectacular
 django-cors-headers
+setuptools
 
 # analyze
 pandas
+pandas_ta
+django-pandas
+numpy==1.26.4
 
 # tasks
 redis

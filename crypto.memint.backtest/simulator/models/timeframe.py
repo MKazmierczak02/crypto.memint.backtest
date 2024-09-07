@@ -1,4 +1,5 @@
 from django.db import models
+
 from binance.client import Client
 
 BINANCE_MAPPINGS = {

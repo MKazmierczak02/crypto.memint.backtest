@@ -3,13 +3,15 @@ from datetime import datetime
 from celery.result import AsyncResult
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
+from django_pandas.io import read_frame
 from drf_spectacular.utils import extend_schema
 from rest_framework import status, viewsets
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from ..models import Simulation
+from ..handlers import MovingAverageCrossoverStrategy
+from ..models import PriceData, Simulation
 from ..serializers import ControlIdSerializer, SimulationSerializer
 from ..tasks import analyze_market_data
 
@@ -40,15 +42,18 @@ def start_simulation(request):
         )
 
     simulation = get_object_or_404(Simulation, id=id, strategy__user=request.user)
-    simulation.start_date = datetime.now()
+    analyze_market_data(simulation.id)
     # if simulation.status != "Ready": return Response({"status": "error", "message": f"Simulation status is {
     # simulation.status}."}, status=status.HTTP_409_CONFLICT)
+    # moving_average_crossover = MovingAverageCrossoverStrategy(market_data, simulation)
+    # moving_average_crossover.run()
 
-    task = analyze_market_data.delay(simulation.id)
-    simulation.task_id = task.id
-    simulation.save()
+    # task = analyze_market_data.delay(simulation.id)
+    # simulation.task_id = task.id
+    # simulation.save()
 
-    return Response({"status": "ok", "task_id": task.id}, status=status.HTTP_200_OK)
+    # return Response({"status": "ok", "task_id": task.id}, status=status.HTTP_200_OK)
+    return Response({"XD"}, status=status.HTTP_200_OK)
 
 
 @api_view(["POST"])
