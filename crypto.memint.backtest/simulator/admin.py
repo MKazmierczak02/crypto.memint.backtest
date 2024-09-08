@@ -1,5 +1,5 @@
 from django.contrib import admin
-from simulator.models import (Action, Condition, PriceData, Simulation,
+from simulator.models import (Condition, PriceData, Simulation,
                               Strategy, Symbol, TimeFrame, Transaction)
 
 admin.site.register(Simulation)
@@ -8,5 +8,4 @@ admin.site.register(Strategy)
 admin.site.register(PriceData)
 admin.site.register(Condition)
 admin.site.register(Transaction)
-admin.site.register(Action)
 admin.site.register(TimeFrame)

@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
-from .models import (Action, Condition, PriceData, Simulation, Strategy,
+from .models import (Condition, PriceData, Simulation, Strategy,
                      Symbol, TimeFrame, Transaction)
 
 User = get_user_model()
@@ -25,15 +25,8 @@ class TransactionSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class ActionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Action
-        fields = "__all__"
-
-
 class StrategySerializer(serializers.ModelSerializer):
     conditions = ConditionSerializer(many=True, read_only=True)
-    actions = ActionSerializer(many=True, read_only=True)
     parameters = serializers.JSONField()
 
     class Meta:

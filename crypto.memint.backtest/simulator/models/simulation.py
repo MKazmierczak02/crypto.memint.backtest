@@ -25,6 +25,9 @@ class Simulation(models.Model):
     end_date = models.DateTimeField(null=True, blank=True)
 
     initial_balance = models.FloatField()
+    fixed_trade_value = models.FloatField(blank=True, null=True)
+    available_assets = models.FloatField(blank=True, null=True)
+
     final_balance = models.FloatField(blank=True, null=True)
     roi = models.FloatField(blank=True, null=True)
     max_drawdown = models.FloatField(blank=True, null=True)
@@ -34,3 +37,37 @@ class Simulation(models.Model):
 
     def __str__(self):
         return f"#{self.id} | Simulation of {self.strategy.name}"
+
+    def save(self, *args, **kwargs):
+        if not self.fixed_trade_value:
+            self.fixed_trade_value = self.initial_balance * 0.10
+
+        if not self.available_assets:
+            self.available_assets = self.initial_balance
+
+        super().save(*args, **kwargs)
+
+    def add_transaction(self, transaction):
+        if not self.transactions.filter(
+            transaction_type=transaction.transaction_type,
+            date=transaction.date,
+            amount=transaction.amount,
+            price=transaction.price,
+            total=transaction.total
+        ).exists():
+            self.transactions.add(transaction)
+            self.save()
+        else:
+            print("Transaction already exists in this simulation.")
+
+    def update_holdings(self, action_type, amount):
+        if action_type == "BUY":
+            self.available_assets += amount
+        elif action_type == "SELL":
+            self.available_assets -= amount
+        self.save()
+
+    def clear_transactions(self):
+        self.transactions.clear()
+        self.save()
+

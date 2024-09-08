@@ -6,10 +6,10 @@ class Condition(models.Model):
         ("MACD", "MACD"),
         ("PRICE", "Price"),
         ("RSI", "RSI"),
-        ("MA20", "MA20"),
-        ("MA50", "MA50"),
-        ("MA100", "MA100"),
-        ("MA200", "MA200"),
+        ("sma_20", "SMA20"),
+        ("sma_50", "SMA50"),
+        ("sma_100", "SMA100"),
+        ("sma_209", "SMA200"),
     ]
     TYPE_CHOICES = [
         ("BUY", "BUY"),

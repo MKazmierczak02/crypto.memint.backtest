@@ -1,4 +1,3 @@
-from .action import Action
 from .condition import Condition
 from .price import PriceData
 from .simulation import Simulation
