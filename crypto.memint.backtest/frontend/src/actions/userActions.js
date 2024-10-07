@@ -1,14 +1,11 @@
 import axios from "axios";
 import {
-    USER_LOGIN_SUCCESS,
-    USER_LOGIN_REQUEST,
-    USER_LOGOUT,
-    USER_LOGIN_FAIL
+    USER
 } from "../constans/actionTypes";
 
 export const login = (email, password) => async dispatch  => {
     try {
-        dispatch({ type: USER_LOGIN_REQUEST })
+        dispatch({ type: USER.LOGIN_REQUEST })
         const config = {
             headers: {
                 'Content-Type': 'application/json'
@@ -19,14 +16,14 @@ export const login = (email, password) => async dispatch  => {
           { email, password }, config);
 
         dispatch({
-            type: USER_LOGIN_SUCCESS,
+            type: USER.LOGIN_SUCCESS,
             payload: data
         })
 
         localStorage.setItem('userInfo', JSON.stringify(data))
     } catch (error) {
         dispatch({
-            type: USER_LOGIN_FAIL,
+            type: USER.LOGIN_FAIL,
             payload: error.response && error.response.data.message
             ? error.response.data.message
             : error.message,
@@ -36,5 +33,5 @@ export const login = (email, password) => async dispatch  => {
 
 export const logout = () => (dispatch) => {
     localStorage.removeItem('userInfo')
-    dispatch({ type: USER_LOGOUT })
+    dispatch({ type: USER.LOGOUT })
 }

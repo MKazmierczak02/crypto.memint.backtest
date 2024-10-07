@@ -1,13 +1,24 @@
 import {configureStore, combineReducers} from '@reduxjs/toolkit'
 import {thunk} from 'redux-thunk'
-import {strategyListReducer, strategyDetailsReducer} from "./reducers/strategyReducers";
+import {strategyListReducer, strategyDetailsReducer, strategyCreateReducer, strategyUpdateReducer} from "./reducers/strategyReducers";
 import {userLoginReducer} from "./reducers/loginReducer"
-import {simulationsListReducer} from "./reducers/simulationReducers";
+import {
+    simulationsListReducer,
+    simulationDetailsReducer,
+    simulationCreateReducer,
+    simulationSummaryReducer
+} from "./reducers/simulationReducers";
 
 const reducer = combineReducers({
     strategyList: strategyListReducer,
-    simulationsList: simulationsListReducer,
     strategyDetails: strategyDetailsReducer,
+    strategyCreate: strategyCreateReducer,
+    strategyUpdate: strategyUpdateReducer,
+
+    simulationsList: simulationsListReducer,
+    simulationDetails: simulationDetailsReducer,
+    simulationSummary: simulationSummaryReducer,
+    simulationCreate: simulationCreateReducer,
     userLogin: userLoginReducer
 });
 

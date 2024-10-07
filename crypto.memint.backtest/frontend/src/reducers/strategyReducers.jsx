@@ -1,42 +1,71 @@
-import {
-    STRATEGY_LIST_REQUEST,
-    STRATEGY_LIST_SUCCESS,
-    STRATEGY_LIST_FAIL,
-    STRATEGY_DETAILS_REQUEST,
-    STRATEGY_DETAILS_SUCCESS,
-    STRATEGY_DETAILS_FAIL
-} from '../constans/actionTypes'
-export const strategyListReducer = (state = {strategies: []}, action) =>
-{
-    switch (action.type) {
-        case STRATEGY_LIST_REQUEST:
-            return { loading: true, strategies: [] }
+import { STRATEGY } from '../constans/actionTypes';
 
-        case STRATEGY_LIST_SUCCESS:
-            return { loading: false, strategies: action.payload }
+export const strategyListReducer = (state = { strategies: [] }, action) => {
+  switch (action.type) {
+    case STRATEGY.LIST_REQUEST:
+      return { loading: true, strategies: [] };
 
-        case STRATEGY_LIST_FAIL:
-            return { loading: false, error: action.payload }
+    case STRATEGY.LIST_SUCCESS:
+      return { loading: false, strategies: action.payload };
 
-        default:
-            return state
-    }
-}
+    case STRATEGY.LIST_FAIL:
+      return { loading: false, error: action.payload };
 
+    default:
+      return state;
+  }
+};
 
-export const strategyDetailsReducer = (state = {strategy: {}}, action) =>
-{
-    switch (action.type) {
-        case STRATEGY_DETAILS_REQUEST:
-            return { loading: true, ...state }
+export const strategyDetailsReducer = (state = { strategy: {} }, action) => {
+  switch (action.type) {
+    case STRATEGY.DETAILS_REQUEST:
+      return { ...state, loading: true };
 
-        case STRATEGY_DETAILS_SUCCESS:
-            return { loading: false, strategy: action.payload }
+    case STRATEGY.DETAILS_SUCCESS:
+      return { loading: false, strategy: action.payload };
 
-        case STRATEGY_DETAILS_FAIL:
-            return { loading: false, error: action.payload }
+    case STRATEGY.DETAILS_FAIL:
+      return { loading: false, error: action.payload };
 
-        default:
-            return state
-    }
-}
+    default:
+      return state;
+  }
+};
+
+export const strategyCreateReducer = (state = {}, action) => {
+  switch (action.type) {
+    case STRATEGY.CREATE_REQUEST:
+      return { loading: true };
+
+    case STRATEGY.CREATE_SUCCESS:
+      return { loading: false, success: true, strategy: action.payload };
+
+    case STRATEGY.CREATE_FAIL:
+      return { loading: false, error: action.payload };
+
+    case STRATEGY.CREATE_RESET:
+      return {};
+
+    default:
+      return state;
+  }
+};
+
+export const strategyUpdateReducer = (state = { strategy: {} }, action) => {
+  switch (action.type) {
+    case STRATEGY.UPDATE_REQUEST:
+      return { ...state, loading: true };
+
+    case STRATEGY.UPDATE_SUCCESS:
+      return { loading: false, success: true, strategy: action.payload };
+
+    case STRATEGY.UPDATE_FAIL:
+      return { loading: false, error: action.payload };
+
+    case STRATEGY.UPDATE_RESET:
+      return {};
+
+    default:
+      return state;
+  }
+};

@@ -1,26 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import {Navbar, Nav, Container} from 'react-bootstrap';
+import { AppBar, Toolbar, Button, Typography, IconButton, Box, Badge, Drawer, List, ListItem, ListItemText } from '@mui/material';
 import axios from "axios";
-import {useDispatch, useSelector} from "react-redux";
-import {logout} from "../actions/userActions";
-import {useNavigate} from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../actions/userActions";
+import { useNavigate } from "react-router-dom";
+import MenuIcon from '@mui/icons-material/Menu';
 
 const NavigationBar = () => {
-
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const [healthy, setHealthy] = useState(false);
   const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo } = userLogin
+  const { userInfo } = userLogin;
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchHealthy = async () =>{
-      const response = await axios.get("/api/check")
+    const fetchHealthy = async () => {
+      const response = await axios.get("/api/check");
       if (response.data.status === "ok") {
         setHealthy(true);
       }
-    }
-    fetchHealthy()
+    };
+    fetchHealthy();
   }, []);
 
   const logoutHandler = () => {
@@ -28,33 +29,130 @@ const NavigationBar = () => {
     navigate('/');
   };
 
+  const toggleDrawer = (open) => (event) => {
+    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return;
+    }
+    setDrawerOpen(open);
+  };
+
+  const list = () => (
+    <Box
+      sx={{ width: 250, height: "100vh" , backgroundColor: "#000"}}
+      role="presentation"
+      onClick={toggleDrawer(false)}
+      onKeyDown={toggleDrawer(false)}
+    >
+      <List>
+        {userInfo ? (
+          <>
+            <ListItem button onClick={() => navigate('/simulations')}>
+              <ListItemText primary="Simulations" />
+            </ListItem>
+            <ListItem button onClick={() => navigate('/strategies')}>
+              <ListItemText primary="Strategies" />
+            </ListItem>
+            <ListItem button onClick={() => navigate('/statistics')}>
+              <ListItemText primary="Statistics" />
+            </ListItem>
+            <ListItem button onClick={logoutHandler}>
+              <ListItemText primary="Log out" />
+            </ListItem>
+          </>
+        ) : (
+          <>
+            <ListItem button onClick={() => navigate('/pricing')}>
+              <ListItemText primary="Pricing" />
+            </ListItem>
+            <ListItem button onClick={() => navigate('/tools')}>
+              <ListItemText primary="Tools" />
+            </ListItem>
+            <ListItem button onClick={() => navigate('/about')}>
+              <ListItemText primary="About" />
+            </ListItem>
+            <ListItem button onClick={() => navigate('/login')}>
+              <ListItemText primary="Log in" />
+            </ListItem>
+          </>
+        )}
+      </List>
+    </Box>
+  );
+
   return (
-    <Navbar expand="lg" variant="dark" className={"saira-condensed-bold fixed-top"}>
-      <Container>
-        <Navbar.Brand onClick={() => navigate('/')} className={"navbar-logo"}>MEMINT</Navbar.Brand>
-        <span className="navbar-badge" style={healthy ? {background: "green"} : {background: "red"}}></span>
-        <Navbar.Toggle aria-controls="" className="nav-toggle"/>
-        <Navbar.Collapse>
-          <Nav className="ms-auto align-items-center navbar-nav">
+    <>
+      <AppBar position="fixed" style={{ background: 'transparent', boxShadow: 'none'}}>
+        <Toolbar>
+          <Typography
+            variant="h4"
+            component="div"
+            sx={{ flexGrow: 1, cursor: 'pointer', fontFamily: 'Saira Condensed, sans-serif', fontWeight: 700 }}
+            onClick={() => navigate('/')}
+          >
+            MBACKTEST
+          </Typography>
+
+          <Badge
+            variant="dot"
+            color={healthy ? "success" : "error"}
+            sx={{ mr: 2 }}
+          >
+            <Box sx={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: healthy ? 'green' : 'red' }} />
+          </Badge>
+
+          <IconButton
+            color="inherit"
+            edge="end"
+            onClick={toggleDrawer(true)}
+            sx={{ display: { xs: 'block', sm: 'none' } }}
+          >
+            <MenuIcon />
+          </IconButton>
+
+          <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
             {userInfo ? (
-                <>
-                  <Nav.Link onClick={() => navigate('/simulations')} className="me-3">Simulations</Nav.Link>
-                  <Nav.Link onClick={() => navigate('/strategies')} className="me-3">Strategies</Nav.Link>
-                  <Nav.Link href="#" className="me-3">Statistics</Nav.Link>
-                  <Nav.Link onClick={logoutHandler} className="">Log out</Nav.Link>
-                </>
+              <>
+                <Button color="inherit" onClick={() => navigate('/simulations')} sx={{ mr: 2 }}>
+                  Simulations
+                </Button>
+                <Button color="inherit" onClick={() => navigate('/strategies')} sx={{ mr: 2 }}>
+                  Strategies
+                </Button>
+                <Button color="inherit" onClick={() => navigate('/statistics')} sx={{ mr: 2 }}>
+                  Statistics
+                </Button>
+                <Button color="inherit" onClick={logoutHandler}>
+                  Log out
+                </Button>
+              </>
             ) : (
-                <>
-                  <Nav.Link href="#" className="me-3">Pricing</Nav.Link>
-                  <Nav.Link href="#" className="me-3">Tools</Nav.Link>
-                  <Nav.Link href="#" className="me-3">About</Nav.Link>
-                  <Nav.Link onClick={() => navigate('/login')} className="">Log in</Nav.Link>
-                </>
+              <>
+                <Button color="inherit" onClick={() => navigate('/pricing')} sx={{ mr: 2 }}>
+                  Pricing
+                </Button>
+                <Button color="inherit" onClick={() => navigate('/tools')} sx={{ mr: 2 }}>
+                  Tools
+                </Button>
+                <Button color="inherit" onClick={() => navigate('/about')} sx={{ mr: 2 }}>
+                  About
+                </Button>
+                <Button color="inherit" onClick={() => navigate('/login')}>
+                  Log in
+                </Button>
+              </>
             )}
-          </Nav>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
+          </Box>
+        </Toolbar>
+      </AppBar>
+
+      <Drawer
+        anchor="right"
+        open={drawerOpen}
+        onClose={toggleDrawer(false)}
+      >
+        {list()}
+      </Drawer>
+    </>
   );
 };
 

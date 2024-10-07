@@ -1,82 +1,142 @@
-import React, { useState } from "react";
-import { Button, Toast, ToastContainer } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import {
+  TableRow,
+  TableCell,
+  IconButton,
+  Tooltip,
+  Snackbar,
+  Alert,
+  Chip,
+} from "@mui/material";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import { useSelector } from "react-redux";
 import axios from "axios";
-
+import {Link, useNavigate} from "react-router-dom";
+import ReplayIcon from '@mui/icons-material/Replay';
+import BarChartIcon from '@mui/icons-material/BarChart';
 const SimulationRow = ({ simulation }) => {
-    const userLogin = useSelector((state) => state.userLogin);
-    const { userInfo } = userLogin;
-    const [task, setTask] = useState("");
-    const [toast, setToast] = useState({ show: false, message: "", variant: "" });
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+  const [status, setStatus] = useState("");
+  const [toast, setToast] = useState({ show: false, message: "", severity: "" });
+  const navigate = useNavigate();
+  const config = {
+    headers: {
+      Authorization: `Bearer ${userInfo?.token}`,
+    },
+  };
 
-    const config = {
-        headers: {
-            Authorization: `Bearer ${userInfo?.token}`,
-        },
-    };
+  useEffect(() => {
+    setStatus(simulation.status);
+  }, [simulation.status]);
 
-    const handleStartSimulation = async (simulation) => {
-        try {
-            const response = await axios.post("/api/simulator/start", { id: simulation.id }, config);
-            setTask(response.data.task_id);
-            setToast({ show: true, message: "Simulation started successfully!", variant: "success" });
-        } catch (error) {
-            setToast({ show: true, message: error.response?.data?.message || "Failed to start simulation.", variant: "danger" });
-        }
-    };
+  const handleStartSimulation = async (simulation) => {
+    try {
+      const response = await axios.post("/api/simulator/start", { id: simulation.id }, config);
+      setStatus(response.data.status);
+      setToast({ show: true, message: "Simulation started successfully!", severity: "success" });
+    } catch (error) {
+      setToast({
+        show: true,
+        message: error.response?.data?.message || "Failed to start simulation.",
+        severity: "error",
+      });
+    }
+  };
 
-    const handleStopSimulation = async (simulation) => {
-        try {
-            const response = await axios.post("/api/simulator/check", { id: simulation.id }, config);
-            setToast({ show: true, message: "Simulation status checked successfully!", variant: "success" });
-        } catch (error) {
-            setToast({ show: true, message: error.response?.data?.message || "Failed to check simulation status.", variant: "danger" });
-        }
-    };
+  const handleResetSimulation = async (simulation) => {
+    try {
+      const response = await axios.post("/api/simulator/reset", { id: simulation.id }, config);
+      setToast({ show: true, message: "Simulation reset successfully!", severity: "info" });
+    } catch (error) {
+      setToast({
+        show: true,
+        message: error.response?.data?.message || "Failed to reset simulation.",
+        severity: "error",
+      });
+    }
+  };
 
-    return (
-        <>
-            <tr>
-                <td>{simulation.id}</td>
-                <td>{simulation.strategy.name}</td>
-                <td>{simulation.symbol.name}</td>
-                <td>{simulation.start_date}</td>
-                <td>{simulation.end_date}</td>
-                <td>{simulation.initial_balance.toFixed(2)}</td>
-                <td>{simulation.final_balance?.toFixed(2) || "N/A"}</td>
-                <td>{simulation.roi?.toFixed(2) || "N/A"}</td>
-                <td>{simulation.max_drawdown?.toFixed(2) || "N/A"}</td>
-                <td>{simulation.status}</td>
-                <td className="d-flex justify-content-around align-items-center">
-                    <Button
-                        onClick={() => handleStartSimulation(simulation)}
-                        variant={"secondary"}
-                        className={"button-start-simulation saira-condensed-regular"}
-                    >
-                        START
-                    </Button>
-                    <Button
-                        onClick={() => handleStopSimulation(simulation)}
-                        variant={"secondary"}
-                        className={"button-stop-simulation saira-condensed-regular"}
-                    >
-                        STOP
-                    </Button>
-                </td>
-            </tr>
-            <ToastContainer position="top-end" className="p-3">
-                <Toast
-                    onClose={() => setToast({ ...toast, show: false })}
-                    show={toast.show}
-                    bg={toast.variant}
-                    delay={3000}
-                    autohide
-                >
-                    <Toast.Body>{toast.message}</Toast.Body>
-                </Toast>
-            </ToastContainer>
-        </>
-    );
+  const handleCloseToast = () => {
+    setToast({ ...toast, show: false });
+  };
+
+  return (
+    <>
+      <TableRow hover>
+        <TableCell>#{simulation.id}</TableCell>
+        <TableCell>
+          <Link
+            to={`/strategies/${simulation.strategy.id}`}
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            {simulation.strategy.name}
+          </Link>
+        </TableCell>
+        <TableCell>{simulation.symbol_code}</TableCell>
+        <TableCell>{simulation.timeframe}</TableCell>
+        <TableCell>{simulation.initial_balance || "N/A"}</TableCell>
+        <TableCell>{simulation.fixed_trade_value || "N/A"}</TableCell>
+        <TableCell>{simulation.final_balance || "N/A"}</TableCell>
+        <TableCell>x{simulation.leverage || "N/A"}</TableCell>
+        <TableCell>
+          <Chip
+            label={status}
+            color={
+              status === "Running"
+                ? "default"
+                : status === "Finished"
+                ? "success"
+                : status === "Ready"
+                ? "info"
+                : "default"
+            }
+          />
+        </TableCell>
+        <TableCell align="center">
+          <Tooltip title="Start Simulation">
+            <IconButton
+              color="success"
+              onClick={() => handleStartSimulation(simulation)}
+            >
+              <PlayArrowIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Reset">
+            <IconButton
+              color="error"
+              onClick={() => handleResetSimulation(simulation)}
+            >
+              <ReplayIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Summary">
+            <IconButton
+              color="info"
+              onClick={() => navigate(`${simulation.id}`)}
+            >
+              <BarChartIcon />
+            </IconButton>
+          </Tooltip>
+        </TableCell>
+      </TableRow>
+
+      <Snackbar
+        open={toast.show}
+        autoHideDuration={3000}
+        onClose={handleCloseToast}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      >
+        <Alert
+          onClose={handleCloseToast}
+          severity={toast.severity}
+          sx={{ width: "100%" }}
+        >
+          {toast.message}
+        </Alert>
+      </Snackbar>
+    </>
+  );
 };
 
 export default SimulationRow;

@@ -2,38 +2,45 @@ import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { listStrategyDetails } from "../actions/strategyActions";
-import { Container, Row, Col, Spinner, Alert } from "react-bootstrap";
+import {
+  Container,
+  Box,
+  CircularProgress,
+  Alert,
+  Typography,
+} from "@mui/material";
 import StrategyDetails from "../components/StrategyDetails";
 
 const StrategyDetailsScreen = () => {
-  const { id } = useParams();
+  const { strategyId } = useParams();
   const dispatch = useDispatch();
   const strategyDetails = useSelector((state) => state.strategyDetails);
   const { loading, error, strategy } = strategyDetails;
 
   useEffect(() => {
-    dispatch(listStrategyDetails(id));
-  }, [dispatch, id]);
-
+    dispatch(listStrategyDetails(strategyId));
+  }, [dispatch, strategyId]);
 
   return (
-    <Container className="min-vh-100 align-items-center align-content-center">
+    <Container
+      sx={{
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
       {loading ? (
-        <Row className="justify-content-center">
-          <Spinner animation="border" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </Spinner>
-        </Row>
+        <CircularProgress />
       ) : error ? (
-        <Alert variant="danger">{error}</Alert>
+        <Alert severity="error">{error}</Alert>
+      ) : strategy && Object.keys(strategy).length > 0 ? (
+        <Box sx={{ width: "100%" }}>
+          <StrategyDetails strategy={strategy} />
+        </Box>
       ) : (
-        strategy && (
-          <Row className="justify-content-center">
-            <Col md={8}>
-              <StrategyDetails strategy={strategy}/>
-            </Col>
-          </Row>
-        )
+        <Typography variant="h6">No strategy found.</Typography>
       )}
     </Container>
   );

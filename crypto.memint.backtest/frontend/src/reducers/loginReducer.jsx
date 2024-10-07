@@ -1,17 +1,17 @@
-import {USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGOUT} from "../constans/actionTypes";
+import {USER} from "../constans/actionTypes";
 
 export const userLoginReducer = (state = {}, action) => {
     switch (action.type) {
-        case USER_LOGIN_REQUEST:
+        case USER.LOGIN_REQUEST:
             return { loading: true }
 
-        case USER_LOGIN_SUCCESS:
+        case USER.LOGIN_SUCCESS:
             return { loading: false, userInfo: action.payload }
 
-        case USER_LOGIN_FAIL:
+        case USER.LOGIN_FAIL:
             return { loading: false, error: action.payload }
 
-        case USER_LOGOUT:
+        case USER.LOGOUT:
             return {}
 
         default:
