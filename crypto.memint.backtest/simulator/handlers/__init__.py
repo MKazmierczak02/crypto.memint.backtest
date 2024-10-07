@@ -1,1 +1,0 @@
-from .moving_average_crossover import MovingAverageCrossoverStrategy
