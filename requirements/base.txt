@@ -9,12 +9,14 @@ psycopg2
 drf-spectacular
 django-cors-headers
 setuptools
+drf-writable-nested
 
 # analyze
 pandas
 pandas_ta
 django-pandas
 numpy==1.26.4
+reportlab
 
 # tasks
 redis
