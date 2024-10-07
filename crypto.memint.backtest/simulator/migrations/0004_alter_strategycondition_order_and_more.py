@@ -6,23 +6,33 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('simulator', '0003_alter_strategycondition_strategy'),
+        ("simulator", "0003_alter_strategycondition_strategy"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='strategycondition',
-            name='order',
+            model_name="strategycondition",
+            name="order",
             field=models.PositiveIntegerField(default=0),
         ),
         migrations.AlterField(
-            model_name='technicalindicator',
-            name='name',
-            field=models.CharField(blank=True, choices=[('SMA', 'Simple Moving Average'), ('EMA', 'Exponential Moving Average'), ('RSI', 'Relative Strength Index'), ('MACD', 'Moving Average Convergence Divergence')], max_length=10, null=True),
+            model_name="technicalindicator",
+            name="name",
+            field=models.CharField(
+                blank=True,
+                choices=[
+                    ("SMA", "Simple Moving Average"),
+                    ("EMA", "Exponential Moving Average"),
+                    ("RSI", "Relative Strength Index"),
+                    ("MACD", "Moving Average Convergence Divergence"),
+                ],
+                max_length=10,
+                null=True,
+            ),
         ),
         migrations.AlterField(
-            model_name='technicalindicator',
-            name='parameters',
+            model_name="technicalindicator",
+            name="parameters",
             field=models.JSONField(blank=True, null=True),
         ),
     ]

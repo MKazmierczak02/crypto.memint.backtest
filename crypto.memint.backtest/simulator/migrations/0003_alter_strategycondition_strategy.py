@@ -7,13 +7,17 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('simulator', '0002_position_position_type_simulation_leverage_and_more'),
+        ("simulator", "0002_position_position_type_simulation_leverage_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='strategycondition',
-            name='strategy',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='strategy_conditions', to='simulator.strategy'),
+            model_name="strategycondition",
+            name="strategy",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="strategy_conditions",
+                to="simulator.strategy",
+            ),
         ),
     ]

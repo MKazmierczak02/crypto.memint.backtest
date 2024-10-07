@@ -1,7 +1,8 @@
 from drf_writable_nested import WritableNestedModelSerializer
-from .condition import ConditionSerializer
-from .action import ActionSerializer
 from simulator.models import ConditionGroup
+
+from .action import ActionSerializer
+from .condition import ConditionSerializer
 
 
 class ConditionGroupSerializer(WritableNestedModelSerializer):
@@ -10,4 +11,4 @@ class ConditionGroupSerializer(WritableNestedModelSerializer):
 
     class Meta:
         model = ConditionGroup
-        fields = ['id', 'action', 'order', 'conditions']
+        fields = ["id", "action", "order", "conditions"]

@@ -6,13 +6,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('simulator', '0012_alter_position_entry_price_alter_position_size'),
+        ("simulator", "0012_alter_position_entry_price_alter_position_size"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='simulation',
-            name='max_loss',
-            field=models.DecimalField(blank=True, decimal_places=2, max_digits=5, null=True),
+            model_name="simulation",
+            name="max_loss",
+            field=models.DecimalField(
+                blank=True, decimal_places=2, max_digits=5, null=True
+            ),
         ),
     ]

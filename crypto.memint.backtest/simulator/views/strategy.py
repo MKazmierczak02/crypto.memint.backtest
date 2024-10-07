@@ -1,9 +1,9 @@
 from django.contrib.auth import get_user_model
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
+from simulator.serializers.strategy import StrategySerializer
 
 from ..models import Strategy
-from simulator.serializers.strategy import StrategySerializer
 
 User = get_user_model()
 

@@ -1,5 +1,6 @@
-from simulator.models import Condition
 from drf_writable_nested import WritableNestedModelSerializer
+from simulator.models import Condition
+
 from .operand import OperandSerializer
 
 
@@ -10,8 +11,8 @@ class ConditionSerializer(WritableNestedModelSerializer):
     class Meta:
         model = Condition
         fields = [
-            'id',
-            'left_operand',
-            'operator',
-            'right_operand',
+            "id",
+            "left_operand",
+            "operator",
+            "right_operand",
         ]

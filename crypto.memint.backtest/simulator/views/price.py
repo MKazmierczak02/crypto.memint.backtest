@@ -1,8 +1,8 @@
 from rest_framework import viewsets
+from simulator.serializers.price import PriceDataSerializer
 
 from ..models import PriceData
 from ..permissions import IsAdminUser
-from simulator.serializers.price import PriceDataSerializer
 
 
 class PriceViewSet(viewsets.ModelViewSet):
@@ -16,6 +16,8 @@ class PriceViewSet(viewsets.ModelViewSet):
         quote = self.request.query_params.get("quote")
         if base and quote:
             return PriceData.objects.filter(
-                pair__base_currency=base, pair__quote_currency=quote, timeframe__timeframe_id=interval.lower()
+                pair__base_currency=base,
+                pair__quote_currency=quote,
+                timeframe__timeframe_id=interval.lower(),
             )
         return PriceData.objects.all()

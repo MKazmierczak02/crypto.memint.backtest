@@ -9,7 +9,7 @@ class ActionSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         action, created = Action.objects.get_or_create(
-            action_type=validated_data['action_type'],
-            parameters=validated_data.get('parameters', {})
+            action_type=validated_data["action_type"],
+            parameters=validated_data.get("parameters", {}),
         )
         return action

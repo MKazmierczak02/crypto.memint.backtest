@@ -1,6 +1,5 @@
 from django.urls import include, path
 from rest_framework.routers import SimpleRouter
-
 from simulator.views import (
     PriceViewSet,
     SimulationViewSet,
@@ -9,14 +8,14 @@ from simulator.views import (
     TimeFrameViewSet,
     check_analysis_result,
     export_simulation_to_csv,
-    start_simulation,
     reset_simulation,
-    simulation_summary
+    simulation_summary,
+    start_simulation,
 )
 from simulator.views.utils import (
-    TechnicalIndicatorListView,
     ActionListView,
-    OperandTypesListView
+    OperandTypesListView,
+    TechnicalIndicatorListView,
 )
 
 router = SimpleRouter()
@@ -27,9 +26,13 @@ router.register(r"prices", PriceViewSet, basename="prices")
 router.register(r"timeframes", TimeFrameViewSet, basename="timeframes")
 
 util_urls = [
-    path('technical-indicators/', TechnicalIndicatorListView.as_view(), name='technical-indicator-list'),
-    path('actions/', ActionListView.as_view(), name='action-list'),
-    path('operand-types/', OperandTypesListView.as_view(), name='operand-types-list'),
+    path(
+        "technical-indicators/",
+        TechnicalIndicatorListView.as_view(),
+        name="technical-indicator-list",
+    ),
+    path("actions/", ActionListView.as_view(), name="action-list"),
+    path("operand-types/", OperandTypesListView.as_view(), name="operand-types-list"),
 ]
 
 
@@ -37,7 +40,11 @@ urlpatterns = [
     path("start", start_simulation, name="start-simulation"),
     path("check", check_analysis_result, name="check-simulation"),
     path("reset", reset_simulation, name="reset-simulation"),
-    path('summary/<int:simulation_id>/', simulation_summary, name='simulation-summary'),
-    path("report/<int:simulation_id>/", export_simulation_to_csv, name="export-simulation-csv"),
+    path("summary/<int:simulation_id>/", simulation_summary, name="simulation-summary"),
+    path(
+        "report/<int:simulation_id>/",
+        export_simulation_to_csv,
+        name="export-simulation-csv",
+    ),
     path("", include(router.urls)),
 ] + util_urls

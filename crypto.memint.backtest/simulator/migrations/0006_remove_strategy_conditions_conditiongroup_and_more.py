@@ -7,27 +7,48 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('simulator', '0005_strategy_max_positions'),
+        ("simulator", "0005_strategy_max_positions"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='strategy',
-            name='conditions',
+            model_name="strategy",
+            name="conditions",
         ),
         migrations.CreateModel(
-            name='ConditionGroup',
+            name="ConditionGroup",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('order', models.PositiveIntegerField(default=0)),
-                ('action', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='simulator.action')),
-                ('strategy', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='condition_groups', to='simulator.strategy')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("order", models.PositiveIntegerField(default=0)),
+                (
+                    "action",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="simulator.action",
+                    ),
+                ),
+                (
+                    "strategy",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="condition_groups",
+                        to="simulator.strategy",
+                    ),
+                ),
             ],
             options={
-                'ordering': ['order'],
+                "ordering": ["order"],
             },
         ),
         migrations.DeleteModel(
-            name='StrategyCondition',
+            name="StrategyCondition",
         ),
     ]

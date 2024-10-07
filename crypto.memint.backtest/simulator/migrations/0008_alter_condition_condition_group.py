@@ -7,13 +7,21 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('simulator', '0007_remove_condition_actions_condition_condition_group_and_more'),
+        (
+            "simulator",
+            "0007_remove_condition_actions_condition_condition_group_and_more",
+        ),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='condition',
-            name='condition_group',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='conditions', to='simulator.conditiongroup'),
+            model_name="condition",
+            name="condition_group",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="conditions",
+                to="simulator.conditiongroup",
+            ),
         ),
     ]

@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('simulator', '0014_alter_technicalindicator_name'),
+        ("simulator", "0014_alter_technicalindicator_name"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='condition',
-            name='current_price',
+            model_name="condition",
+            name="current_price",
             field=models.BooleanField(default=False),
         ),
     ]

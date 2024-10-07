@@ -1,8 +1,8 @@
 from rest_framework import viewsets
-
 from simulator.models.timeframe import TimeFrame
-from ..permissions import IsAdminUserOrReadOnly
 from simulator.serializers.timeframe import TimeFrameSerializer
+
+from ..permissions import IsAdminUserOrReadOnly
 
 
 class TimeFrameViewSet(viewsets.ModelViewSet):

@@ -15,162 +15,439 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Action',
+            name="Action",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('action_type', models.CharField(choices=[('BUY', 'Buy'), ('SELL', 'Sell'), ('HOLD', 'Hold'), ('SET_STOP_LOSS', 'Set Stop Loss'), ('SET_TAKE_PROFIT', 'Set Take Profit')], max_length=20)),
-                ('parameters', models.JSONField(blank=True, null=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "action_type",
+                    models.CharField(
+                        choices=[
+                            ("BUY", "Buy"),
+                            ("SELL", "Sell"),
+                            ("HOLD", "Hold"),
+                            ("SET_STOP_LOSS", "Set Stop Loss"),
+                            ("SET_TAKE_PROFIT", "Set Take Profit"),
+                        ],
+                        max_length=20,
+                    ),
+                ),
+                ("parameters", models.JSONField(blank=True, null=True)),
             ],
         ),
         migrations.CreateModel(
-            name='Simulation',
+            name="Simulation",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('data_from', models.DateField(blank=True, null=True)),
-                ('data_to', models.DateField(blank=True, null=True)),
-                ('initial_balance', models.DecimalField(decimal_places=2, max_digits=20)),
-                ('fixed_trade_value', models.DecimalField(blank=True, decimal_places=2, max_digits=20, null=True)),
-                ('final_balance', models.DecimalField(blank=True, decimal_places=2, max_digits=20, null=True)),
-                ('roi', models.DecimalField(blank=True, decimal_places=2, max_digits=5, null=True)),
-                ('max_drawdown', models.DecimalField(blank=True, decimal_places=2, max_digits=5, null=True)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('start_date', models.DateTimeField(blank=True, null=True)),
-                ('end_date', models.DateTimeField(blank=True, null=True)),
-                ('status', models.CharField(choices=[('Stopped', 'Stopped'), ('Ready', 'Ready'), ('Running', 'Running'), ('Finished', 'Finished')], default='Ready', max_length=10)),
-                ('task_id', models.CharField(blank=True, max_length=255, null=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("data_from", models.DateField(blank=True, null=True)),
+                ("data_to", models.DateField(blank=True, null=True)),
+                (
+                    "initial_balance",
+                    models.DecimalField(decimal_places=2, max_digits=20),
+                ),
+                (
+                    "fixed_trade_value",
+                    models.DecimalField(
+                        blank=True, decimal_places=2, max_digits=20, null=True
+                    ),
+                ),
+                (
+                    "final_balance",
+                    models.DecimalField(
+                        blank=True, decimal_places=2, max_digits=20, null=True
+                    ),
+                ),
+                (
+                    "roi",
+                    models.DecimalField(
+                        blank=True, decimal_places=2, max_digits=5, null=True
+                    ),
+                ),
+                (
+                    "max_drawdown",
+                    models.DecimalField(
+                        blank=True, decimal_places=2, max_digits=5, null=True
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("start_date", models.DateTimeField(blank=True, null=True)),
+                ("end_date", models.DateTimeField(blank=True, null=True)),
+                (
+                    "status",
+                    models.CharField(
+                        choices=[
+                            ("Stopped", "Stopped"),
+                            ("Ready", "Ready"),
+                            ("Running", "Running"),
+                            ("Finished", "Finished"),
+                        ],
+                        default="Ready",
+                        max_length=10,
+                    ),
+                ),
+                ("task_id", models.CharField(blank=True, max_length=255, null=True)),
             ],
         ),
         migrations.CreateModel(
-            name='TechnicalIndicator',
+            name="TechnicalIndicator",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(choices=[('SMA', 'Simple Moving Average'), ('EMA', 'Exponential Moving Average'), ('RSI', 'Relative Strength Index'), ('MACD', 'Moving Average Convergence Divergence')], max_length=10)),
-                ('parameters', models.JSONField()),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(
+                        choices=[
+                            ("SMA", "Simple Moving Average"),
+                            ("EMA", "Exponential Moving Average"),
+                            ("RSI", "Relative Strength Index"),
+                            ("MACD", "Moving Average Convergence Divergence"),
+                        ],
+                        max_length=10,
+                    ),
+                ),
+                ("parameters", models.JSONField()),
             ],
         ),
         migrations.CreateModel(
-            name='TimeFrame',
+            name="TimeFrame",
             fields=[
-                ('timeframe_id', models.CharField(max_length=10, primary_key=True, serialize=False)),
-                ('description', models.CharField(max_length=50)),
+                (
+                    "timeframe_id",
+                    models.CharField(max_length=10, primary_key=True, serialize=False),
+                ),
+                ("description", models.CharField(max_length=50)),
             ],
         ),
         migrations.CreateModel(
-            name='Condition',
+            name="Condition",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('operator', models.CharField(choices=[('GT', '>'), ('LT', '<'), ('EQ', '=='), ('GTE', '>='), ('LTE', '<='), ('NEQ', '!='), ('XAB', 'Crosses Above'), ('XBE', 'Crosses Below')], max_length=10)),
-                ('constant_value', models.FloatField(blank=True, null=True)),
-                ('actions', models.ManyToManyField(related_name='conditions', to='simulator.action')),
-                ('indicator_left', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='left_conditions', to='simulator.technicalindicator')),
-                ('indicator_right', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='right_conditions', to='simulator.technicalindicator')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "operator",
+                    models.CharField(
+                        choices=[
+                            ("GT", ">"),
+                            ("LT", "<"),
+                            ("EQ", "=="),
+                            ("GTE", ">="),
+                            ("LTE", "<="),
+                            ("NEQ", "!="),
+                            ("XAB", "Crosses Above"),
+                            ("XBE", "Crosses Below"),
+                        ],
+                        max_length=10,
+                    ),
+                ),
+                ("constant_value", models.FloatField(blank=True, null=True)),
+                (
+                    "actions",
+                    models.ManyToManyField(
+                        related_name="conditions", to="simulator.action"
+                    ),
+                ),
+                (
+                    "indicator_left",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="left_conditions",
+                        to="simulator.technicalindicator",
+                    ),
+                ),
+                (
+                    "indicator_right",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="right_conditions",
+                        to="simulator.technicalindicator",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='SimulationResult',
+            name="SimulationResult",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('date', models.DateField()),
-                ('portfolio_value', models.DecimalField(decimal_places=2, max_digits=20)),
-                ('cash', models.DecimalField(decimal_places=2, max_digits=20)),
-                ('simulation', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='results', to='simulator.simulation')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("date", models.DateField()),
+                (
+                    "portfolio_value",
+                    models.DecimalField(decimal_places=2, max_digits=20),
+                ),
+                ("cash", models.DecimalField(decimal_places=2, max_digits=20)),
+                (
+                    "simulation",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="results",
+                        to="simulator.simulation",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Strategy',
+            name="Strategy",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100, verbose_name='Strategy Name')),
-                ('description', models.TextField(blank=True, null=True)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('private', models.BooleanField(default=True)),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(max_length=100, verbose_name="Strategy Name"),
+                ),
+                ("description", models.TextField(blank=True, null=True)),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                ("private", models.BooleanField(default=True)),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
         migrations.AddField(
-            model_name='simulation',
-            name='strategy',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='simulator.strategy'),
+            model_name="simulation",
+            name="strategy",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to="simulator.strategy"
+            ),
         ),
         migrations.CreateModel(
-            name='StrategyCondition',
+            name="StrategyCondition",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('logical_operator', models.CharField(choices=[('AND', 'AND'), ('OR', 'OR'), ('NONE', 'NONE')], default='AND', max_length=4)),
-                ('order', models.PositiveIntegerField()),
-                ('condition', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='simulator.condition')),
-                ('strategy', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='simulator.strategy')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "logical_operator",
+                    models.CharField(
+                        choices=[("AND", "AND"), ("OR", "OR"), ("NONE", "NONE")],
+                        default="AND",
+                        max_length=4,
+                    ),
+                ),
+                ("order", models.PositiveIntegerField()),
+                (
+                    "condition",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="simulator.condition",
+                    ),
+                ),
+                (
+                    "strategy",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="simulator.strategy",
+                    ),
+                ),
             ],
             options={
-                'ordering': ['order'],
+                "ordering": ["order"],
             },
         ),
         migrations.AddField(
-            model_name='strategy',
-            name='conditions',
-            field=models.ManyToManyField(through='simulator.StrategyCondition', to='simulator.condition'),
+            model_name="strategy",
+            name="conditions",
+            field=models.ManyToManyField(
+                through="simulator.StrategyCondition", to="simulator.condition"
+            ),
         ),
         migrations.CreateModel(
-            name='Symbol',
+            name="Symbol",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('base_currency', models.CharField(max_length=10)),
-                ('quote_currency', models.CharField(max_length=10)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("base_currency", models.CharField(max_length=10)),
+                ("quote_currency", models.CharField(max_length=10)),
             ],
             options={
-                'indexes': [models.Index(fields=['base_currency', 'quote_currency'], name='simulator_s_base_cu_b10659_idx')],
-                'unique_together': {('base_currency', 'quote_currency')},
+                "indexes": [
+                    models.Index(
+                        fields=["base_currency", "quote_currency"],
+                        name="simulator_s_base_cu_b10659_idx",
+                    )
+                ],
+                "unique_together": {("base_currency", "quote_currency")},
             },
         ),
         migrations.AddField(
-            model_name='simulation',
-            name='symbol',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='simulations', to='simulator.symbol'),
+            model_name="simulation",
+            name="symbol",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="simulations",
+                to="simulator.symbol",
+            ),
         ),
         migrations.AddField(
-            model_name='simulation',
-            name='timeframe',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='simulator.timeframe'),
+            model_name="simulation",
+            name="timeframe",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to="simulator.timeframe"
+            ),
         ),
         migrations.CreateModel(
-            name='Position',
+            name="Position",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('size', models.DecimalField(decimal_places=10, max_digits=20)),
-                ('entry_price', models.DecimalField(decimal_places=10, max_digits=20)),
-                ('fee', models.DecimalField(decimal_places=10, max_digits=20)),
-                ('entry_timestamp', models.DateTimeField()),
-                ('take_profit', models.FloatField(blank=True, null=True)),
-                ('stop_loss', models.FloatField(blank=True, null=True)),
-                ('status', models.CharField(choices=[('open', 'Open'), ('closed', 'Closed')], default='open', max_length=10)),
-                ('is_closed', models.BooleanField(default=False)),
-                ('close_price', models.DecimalField(decimal_places=10, default=None, max_digits=20, null=True)),
-                ('close_timestamp', models.DateTimeField(default=None, null=True)),
-                ('profit', models.DecimalField(decimal_places=10, default=None, max_digits=20, null=True)),
-                ('simulation', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='positions', to='simulator.simulation')),
-                ('symbol', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='simulator.symbol')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("size", models.DecimalField(decimal_places=10, max_digits=20)),
+                ("entry_price", models.DecimalField(decimal_places=10, max_digits=20)),
+                ("fee", models.DecimalField(decimal_places=10, max_digits=20)),
+                ("entry_timestamp", models.DateTimeField()),
+                ("take_profit", models.FloatField(blank=True, null=True)),
+                ("stop_loss", models.FloatField(blank=True, null=True)),
+                (
+                    "status",
+                    models.CharField(
+                        choices=[("open", "Open"), ("closed", "Closed")],
+                        default="open",
+                        max_length=10,
+                    ),
+                ),
+                ("is_closed", models.BooleanField(default=False)),
+                (
+                    "close_price",
+                    models.DecimalField(
+                        decimal_places=10, default=None, max_digits=20, null=True
+                    ),
+                ),
+                ("close_timestamp", models.DateTimeField(default=None, null=True)),
+                (
+                    "profit",
+                    models.DecimalField(
+                        decimal_places=10, default=None, max_digits=20, null=True
+                    ),
+                ),
+                (
+                    "simulation",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="positions",
+                        to="simulator.simulation",
+                    ),
+                ),
+                (
+                    "symbol",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="simulator.symbol",
+                    ),
+                ),
             ],
             options={
-                'unique_together': {('simulation', 'entry_timestamp')},
+                "unique_together": {("simulation", "entry_timestamp")},
             },
         ),
         migrations.CreateModel(
-            name='PriceData',
+            name="PriceData",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('timestamp', models.DateTimeField()),
-                ('open', models.DecimalField(decimal_places=10, max_digits=20)),
-                ('high', models.DecimalField(decimal_places=10, max_digits=20)),
-                ('low', models.DecimalField(decimal_places=10, max_digits=20)),
-                ('close', models.DecimalField(decimal_places=10, max_digits=20)),
-                ('volume', models.DecimalField(decimal_places=10, max_digits=30)),
-                ('pair', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='simulator.symbol')),
-                ('timeframe', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='simulator.timeframe')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("timestamp", models.DateTimeField()),
+                ("open", models.DecimalField(decimal_places=10, max_digits=20)),
+                ("high", models.DecimalField(decimal_places=10, max_digits=20)),
+                ("low", models.DecimalField(decimal_places=10, max_digits=20)),
+                ("close", models.DecimalField(decimal_places=10, max_digits=20)),
+                ("volume", models.DecimalField(decimal_places=10, max_digits=30)),
+                (
+                    "pair",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="simulator.symbol",
+                    ),
+                ),
+                (
+                    "timeframe",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="simulator.timeframe",
+                    ),
+                ),
             ],
             options={
-                'indexes': [models.Index(fields=['pair', 'timeframe', 'timestamp'], name='simulator_p_pair_id_c55d54_idx')],
-                'unique_together': {('pair', 'timeframe', 'timestamp')},
+                "indexes": [
+                    models.Index(
+                        fields=["pair", "timeframe", "timestamp"],
+                        name="simulator_p_pair_id_c55d54_idx",
+                    )
+                ],
+                "unique_together": {("pair", "timeframe", "timestamp")},
             },
         ),
     ]

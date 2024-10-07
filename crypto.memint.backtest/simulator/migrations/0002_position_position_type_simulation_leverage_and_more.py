@@ -6,23 +6,27 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('simulator', '0001_initial'),
+        ("simulator", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='position',
-            name='position_type',
-            field=models.CharField(choices=[('long', 'Long'), ('short', 'Short')], default='long', max_length=5),
+            model_name="position",
+            name="position_type",
+            field=models.CharField(
+                choices=[("long", "Long"), ("short", "Short")],
+                default="long",
+                max_length=5,
+            ),
         ),
         migrations.AddField(
-            model_name='simulation',
-            name='leverage',
+            model_name="simulation",
+            name="leverage",
             field=models.PositiveIntegerField(default=1),
         ),
         migrations.AlterField(
-            model_name='action',
-            name='parameters',
+            model_name="action",
+            name="parameters",
             field=models.JSONField(blank=True, default=dict, null=True),
         ),
     ]

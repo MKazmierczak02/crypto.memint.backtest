@@ -1,18 +1,18 @@
 from django.contrib import admin
 
 from .models import (
+    Action,
     Condition,
+    ConditionGroup,
+    Operand,
     Position,
     PriceData,
     Simulation,
+    SimulationResult,
     Strategy,
     Symbol,
-    TimeFrame,
-    SimulationResult,
-    ConditionGroup,
-    Action,
     TechnicalIndicator,
-    Operand
+    TimeFrame,
 )
 
 admin.site.register(Position)

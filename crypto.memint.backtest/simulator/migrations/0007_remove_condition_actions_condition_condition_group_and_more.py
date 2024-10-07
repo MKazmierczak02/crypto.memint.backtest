@@ -7,28 +7,37 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('simulator', '0006_remove_strategy_conditions_conditiongroup_and_more'),
+        ("simulator", "0006_remove_strategy_conditions_conditiongroup_and_more"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='condition',
-            name='actions',
+            model_name="condition",
+            name="actions",
         ),
         migrations.AddField(
-            model_name='condition',
-            name='condition_group',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='conditions', to='simulator.conditiongroup'),
+            model_name="condition",
+            name="condition_group",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="conditions",
+                to="simulator.conditiongroup",
+            ),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='condition',
-            name='logical_operator',
-            field=models.CharField(choices=[('AND', 'AND'), ('OR', 'OR'), ('NONE', 'NONE')], default='AND', max_length=4),
+            model_name="condition",
+            name="logical_operator",
+            field=models.CharField(
+                choices=[("AND", "AND"), ("OR", "OR"), ("NONE", "NONE")],
+                default="AND",
+                max_length=4,
+            ),
         ),
         migrations.AddField(
-            model_name='condition',
-            name='order',
+            model_name="condition",
+            name="order",
             field=models.PositiveIntegerField(default=0),
         ),
     ]

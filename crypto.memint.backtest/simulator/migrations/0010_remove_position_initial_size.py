@@ -6,12 +6,12 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('simulator', '0009_remove_position_is_closed_remove_position_profit_and_more'),
+        ("simulator", "0009_remove_position_is_closed_remove_position_profit_and_more"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='position',
-            name='initial_size',
+            model_name="position",
+            name="initial_size",
         ),
     ]

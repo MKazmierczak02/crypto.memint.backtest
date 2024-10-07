@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('simulator', '0004_alter_strategycondition_order_and_more'),
+        ("simulator", "0004_alter_strategycondition_order_and_more"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='strategy',
-            name='max_positions',
+            model_name="strategy",
+            name="max_positions",
             field=models.PositiveSmallIntegerField(default=1),
         ),
     ]
