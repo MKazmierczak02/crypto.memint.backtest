@@ -1,44 +1,77 @@
 from django.db import models
+from .operand import Operand
+from .condition_group import ConditionGroup
 
 
 class Condition(models.Model):
-    INDICATORS_CHOICES = [
-        ("MACD", "MACD"),
-        ("PRICE", "Price"),
-        ("RSI", "RSI"),
-        ("sma_20", "SMA20"),
-        ("sma_50", "SMA50"),
-        ("sma_100", "SMA100"),
-        ("sma_209", "SMA200"),
+    LOGICAL_OPERATORS = [
+        ('AND', 'AND'),
+        ('OR', 'OR'),
+        ('NONE', 'NONE'),
     ]
-    TYPE_CHOICES = [
-        ("BUY", "BUY"),
-        ("SELL", "SELL"),
+    CONDITION_OPERATORS = [
+        ('GT', '>'),
+        ('LT', '<'),
+        ('EQ', '=='),
+        ('GTE', '>='),
+        ('LTE', '<='),
+        ('NEQ', '!='),
+        ('XAB', 'Crosses Above'),
+        ('XBE', 'Crosses Below'),
     ]
-    OPERATOR_CHOICES = [
-        (">=", "Greater than or equal to"),
-        ("<=", "Less than or equal to"),
-        ("==", "Equal to"),
-        ("<", "Less than"),
-        (">", "Greater than"),
-        ("CROSSOVER", "Crossover"),
-    ]
-    type = models.CharField(max_length=20, choices=TYPE_CHOICES)
-    indicator = models.CharField(max_length=50, choices=INDICATORS_CHOICES)
-    comparison_indicator = models.CharField(
-        max_length=50, choices=INDICATORS_CHOICES, null=True, blank=True
-    )
-    value = models.FloatField(null=True, blank=True)
-    crossover_direction = models.CharField(
-        max_length=4,
-        choices=[("UP", "Crossover Up"), ("DOWN", "Crossover Down")],
-        null=True,
-        blank=True,
-    )
-    operator = models.CharField(max_length=10, choices=OPERATOR_CHOICES)
-    join_operator = models.CharField(
-        max_length=3, choices=[("AND", "AND"), ("OR", "OR")], default="AND"
-    )
+    condition_group = models.ForeignKey(ConditionGroup, related_name='conditions', on_delete=models.CASCADE, null=True)
+    left_operand = models.ForeignKey(Operand, on_delete=models.CASCADE, related_name='left_conditions', null=True)
+    operator = models.CharField(max_length=10, choices=CONDITION_OPERATORS)
+    right_operand = models.ForeignKey(Operand, on_delete=models.CASCADE, related_name='right_conditions', null=True)
+    logical_operator = models.CharField(max_length=4, choices=LOGICAL_OPERATORS, default='AND')
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ['order']
+
+    def evaluate(self, data, idx, context) -> bool:
+        left_value = self.left_operand.get_value(data, idx, context)
+        right_value = self.right_operand.get_value(data, idx, context)
+
+        if left_value is None or right_value is None:
+            return False
+
+        if self.operator in ['GT', 'LT', 'EQ', 'GTE', 'LTE', 'NEQ']:
+            return self.evaluate_common_logic(left_value, right_value)
+        elif self.operator == 'XAB':
+            if idx == 0:
+                return False
+            left_previous = self.left_operand.get_value(data, idx - 1, context)
+            right_previous = self.right_operand.get_value(data, idx - 1, context)
+            if left_previous is None or right_previous is None:
+                return False
+            return left_previous <= right_previous and left_value > right_value
+        elif self.operator == 'XBE':
+            if idx == 0:
+                return False
+            left_previous = self.left_operand.get_value(data, idx - 1, context)
+            right_previous = self.right_operand.get_value(data, idx - 1, context)
+            if left_previous is None or right_previous is None:
+                return False
+            return left_previous >= right_previous and left_value < right_value
+        else:
+            return False
+
+    def evaluate_common_logic(self, left_value, right_value):
+        if self.operator == 'GT':
+            return left_value > right_value
+        elif self.operator == 'LT':
+            return left_value < right_value
+        elif self.operator == 'EQ':
+            return left_value == right_value
+        elif self.operator == 'GTE':
+            return left_value >= right_value
+        elif self.operator == 'LTE':
+            return left_value <= right_value
+        elif self.operator == 'NEQ':
+            return left_value != right_value
+        else:
+            return False
 
     def __str__(self):
-        return f"{self.indicator} {self.operator} {self.value if self.value else self.comparison_indicator}"
+        return f"{self.left_operand} {self.operator} {self.right_operand}"
