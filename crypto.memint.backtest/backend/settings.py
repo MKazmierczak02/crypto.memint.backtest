@@ -49,7 +49,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
 ]
 
-
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 5000
 ROOT_URLCONF = "backend.urls"
 
 TEMPLATES = [
