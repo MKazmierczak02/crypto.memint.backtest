@@ -1,9 +1,11 @@
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from rest_framework import viewsets
-from rest_framework.permissions import IsAdminUser, IsAuthenticated
+from rest_framework.permissions import IsAuthenticated
 
 from ..models import Strategy
-from ..serializers import StrategySerializer
+from simulator.serializers.strategy import StrategySerializer
+
+User = get_user_model()
 
 
 class StrategyViewSet(viewsets.ModelViewSet):
@@ -12,7 +14,6 @@ class StrategyViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return Strategy.objects.filter(user=self.request.user)
-        # return Strategy.objects.all()
 
     def perform_create(self, serializer):
         serializer.save(user=User.objects.first())

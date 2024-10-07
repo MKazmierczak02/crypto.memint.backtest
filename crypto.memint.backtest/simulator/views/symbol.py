@@ -2,7 +2,7 @@ from rest_framework import viewsets
 
 from ..models import Symbol
 from ..permissions import IsAdminUserOrReadOnly
-from ..serializers import SymbolSerializer
+from simulator.serializers.symbol import SymbolSerializer
 
 
 class SymbolViewSet(viewsets.ModelViewSet):
