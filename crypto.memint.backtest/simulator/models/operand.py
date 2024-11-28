@@ -22,9 +22,9 @@ class Operand(models.Model):
         elif self.operand_type == "constant":
             return self.constant_value
         elif self.operand_type == "current_price":
-            return context.get_current_price()
+            return context["current_price"]
         elif self.operand_type == "profit":
-            return context.get_profit()
+            return context["profit"]
         else:
             return None
 

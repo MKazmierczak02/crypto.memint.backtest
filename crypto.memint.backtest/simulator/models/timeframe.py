@@ -5,6 +5,7 @@ from binance.client import Client
 BINANCE_MAPPINGS = {
     "1m": Client.KLINE_INTERVAL_1MINUTE,
     "5m": Client.KLINE_INTERVAL_5MINUTE,
+    "15m": Client.KLINE_INTERVAL_15MINUTE,
     "30m": Client.KLINE_INTERVAL_30MINUTE,
     "1h": Client.KLINE_INTERVAL_1HOUR,
     "4h": Client.KLINE_INTERVAL_4HOUR,

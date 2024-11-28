@@ -54,7 +54,6 @@ class Portfolio:
 
     def close_position(self, position, close_price, close_timestamp, size=None):
         if size is None or size >= position.size:
-            # Zamknięcie całej pozycji
             margin_released = (position.size * position.entry_price) / position.leverage
             position.close_position(close_price, close_timestamp)
             self.cash += margin_released + position.realized_profit
@@ -89,7 +88,6 @@ class Portfolio:
     def update_positions(self, current_price, current_timestamp):
         for position in self.positions:
             position.calculate_profit(current_price)
-            # Sprawdzenie Stop Loss
             if position.stop_loss_price is not None:
                 if (
                     position.position_type == "long"
@@ -102,7 +100,6 @@ class Portfolio:
                         position, position.stop_loss_price, current_timestamp
                     )
                     continue
-            # Sprawdzenie Take Profit
             if position.take_profit_price is not None:
                 if (
                     position.position_type == "long"
@@ -115,15 +112,22 @@ class Portfolio:
                         position, position.take_profit_price, current_timestamp
                     )
                     continue
-            if position.unrealized_profit <= self.simulation.max_loss:
-                print(
-                    f"CLOSING POSITION: {current_timestamp} BECAUSE OF {position.unrealized_profit}"
-                )
-                self.close_position(position, current_price, current_timestamp)
+            if self.simulation.max_loss:
+                if position.unrealized_profit <= self.simulation.max_loss:
+                    print(
+                        f"CLOSING POSITION: {current_timestamp} BECAUSE OF {position.unrealized_profit}"
+                    )
+                    self.close_position(position, current_price, current_timestamp)
 
     def get_total_profit(self):
         total_profit = sum(
             [position.total_profit for position in self.closed_positions]
+        )
+        return total_profit
+
+    def get_unrealized_profit(self):
+        total_profit = sum(
+            [position.unrealized_profit for position in self.positions]
         )
         return total_profit
 

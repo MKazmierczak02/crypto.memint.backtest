@@ -67,9 +67,9 @@ class Simulation(models.Model):
                 current_price = current_row["close"]
                 current_timestamp = current_row.name
                 portfolio.update_positions(current_price, current_timestamp)
-
+                context = {"current_price": current_price, "profit": portfolio.get_unrealized_profit()}
                 for condition_group in self.strategy.condition_groups.all():
-                    if self.evaluate_condition_group(condition_group, data, idx):
+                    if self.evaluate_condition_group(condition_group, data, idx, context):
                         action = condition_group.action
                         action.execute(portfolio, current_row)
             self.set_finished(portfolio)
@@ -100,14 +100,14 @@ class Simulation(models.Model):
         self.status = "Stopped"
         self.save()
 
-    def evaluate_condition_group(self, condition_group, data, idx) -> bool:
+    def evaluate_condition_group(self, condition_group, data, idx, context) -> bool:
         conditions = list(condition_group.conditions.order_by("order"))
         if not conditions:
             return False
-
-        result = conditions[0].evaluate(data, idx)
+        # (A AND B) OR (A AND D)
+        result = conditions[0].evaluate(data, idx, context)
         for condition in conditions[1:]:
-            condition_result = condition.evaluate(data, idx)
+            condition_result = condition.evaluate(data, idx, context)
             logical_operator = condition.logical_operator
             if logical_operator == "AND" or logical_operator == "NONE":
                 result = result and condition_result
@@ -141,11 +141,12 @@ class Simulation(models.Model):
         indicators = set()
         for condition_group in self.strategy.condition_groups.all():
             for condition in condition_group.conditions.all():
-                indicators.add(condition.indicator_left)
-                if condition.indicator_right:
-                    indicators.add(condition.indicator_right)
+                if condition.left_operand.operand_type == "indicator":
+                    indicators.add(condition.left_operand.indicator)
+                if condition.right_operand.operand_type == "indicator":
+                    indicators.add(condition.right_operand.indicator)
+
         for indicator in indicators:
             column_name = indicator.get_column_name()
             if column_name not in data.columns:
-                indicator_series = indicator.calculate(data)
-                data[column_name] = indicator_series
+                indicator.calculate(data)

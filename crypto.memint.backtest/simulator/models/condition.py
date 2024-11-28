@@ -66,19 +66,21 @@ class Condition(models.Model):
         else:
             return False
 
-    def evaluate_common_logic(self, left_value, right_value):
+    def evaluate_common_logic(self, left_value, right_value) -> bool:
+        lv = float(left_value)
+        rv = float(right_value)
         if self.operator == "GT":
-            return left_value > right_value
+            return lv > rv
         elif self.operator == "LT":
-            return left_value < right_value
+            return lv < rv
         elif self.operator == "EQ":
-            return left_value == right_value
+            return lv == rv
         elif self.operator == "GTE":
-            return left_value >= right_value
+            return lv >= rv
         elif self.operator == "LTE":
-            return left_value <= right_value
+            return lv <= rv
         elif self.operator == "NEQ":
-            return left_value != right_value
+            return lv != rv
         else:
             return False
 
