@@ -30,11 +30,11 @@ The system architecture was designed with scalability and performance in mind, e
 
 1. Clone the repository:
    ```sh
-   git clone https://github.com/yourusername/your-repo.git
+   git clone https://github.com/MKazmierczak02/crypto.memint.backtest.git
    ```
 2. Navigate to the project directory:
    ```sh
-   cd your-repo
+   cd crypto.memint.backtest
    ```
 3. Start the server with docker:
    ```sh
