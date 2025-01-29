@@ -16,11 +16,13 @@ The platform enables users to:
 - **Performance Analysis** – Evaluate strategy effectiveness with detailed metrics.
 - **User-Friendly Interface** – Built with React for an intuitive experience.
 
-## Technology Stack
+## Technology Stack & Architecture
 
 - **Backend**: Django (Python), DRF, Celery+Redis
 - **Frontend**: React + Redux + MaterialUI
 - **Database**: PostgreSQL
+
+![image](https://github.com/user-attachments/assets/2c654190-4109-42f8-904f-727b996a8297)
 
 ## Scalability & Performance
 
@@ -40,6 +42,8 @@ The system architecture was designed with scalability and performance in mind, e
    ```sh
    docker-compose up
    ```
+![image](https://github.com/user-attachments/assets/8dbc4e1c-2a90-462b-8344-099beb27de42)
+
 
 ## Usage
 
